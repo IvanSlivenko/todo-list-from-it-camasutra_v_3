@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
-import {Todolist_test} from "./Todolist_test";
-
-import {tasks_test} from "./tasks_test";
 
 function App() {
 
@@ -14,13 +11,13 @@ function App() {
     ]
 
 
-
-    let [Currenttasks, setNewTasks] = useState(tasks)
+    let [CurrentTasks, setNewTasks] = useState(tasks)
+    let [] = useState(tasks);
 
 
     function removeTask(id: number) {
-        let newTasks = Currenttasks.filter(t => t.id !== id);
-        setNewTasks(newTasks);
+        let filteredTasks = CurrentTasks.filter(t => t.id !== id);
+        setNewTasks(filteredTasks);
     }
 
     return (
@@ -28,12 +25,10 @@ function App() {
 
             <Todolist
                 title="What to lern ?"
-                tasks = {Currenttasks}
+                tasks={CurrentTasks}
                 removeTask={removeTask}
 
             />
-
-
 
 
         </div>

@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import App_test from "./App_test";
 import {Border} from "./Border";
 
+import {Counter} from "./Counter";
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
@@ -16,6 +18,8 @@ root.render(
 
         <Border/>
         <App_test/>
+        <Border/>
+        <Counter/>
     </>
 
 // </React.StrictMode>
