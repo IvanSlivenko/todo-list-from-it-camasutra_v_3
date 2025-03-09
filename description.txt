@@ -1,0 +1,25 @@
+---------------------------------------------------------------------- Lesson 1
+https://youtu.be/pzs3a-d3kjM?list=PLcvhF2Wqh7DOFHUukzl5g4BP_Bbn6oM00
+
+yarn create react-app my-app --template typescript
+
+yarn start
+
+package.json-> show npm scripts
+
+точка входження - index.tsx
+
+=====================================================================
+00 : 00 : 00
+
+
+---------------------------------------------------------------------- Lesson 2
+
+
+https://youtu.be/an32Q6yqqfY?list=PLcvhF2Wqh7DOFHUukzl5g4BP_Bbn6oM00
+
+app (tasks) (funcionHandler)
+        todolist (button)
+
+=====================================================================
+00 : 47 : 57
