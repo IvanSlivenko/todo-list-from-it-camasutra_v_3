@@ -1,68 +1,205 @@
-/*.input-Mit-Label {*/
-/*    display: flex;*/
-/*    flex-direction: column; !* Розташовує елементи по вертикалі *!*/
-/*    margin-bottom: 10px; !* Додає відступ між групами елементів *!*/
-/*}*/
+/* Стиль заголовка */
+h3 {
+    text-align: center;
+    color: #333;
+}
 
-/*.input-Mit-Label label {*/
-/*    margin-bottom: 5px; !* Відступ між лейблом і полем вводу *!*/
-/*    font-size: 14px; !* Розмір шрифта для лейбла *!*/
-/*    font-weight: bold; !* Для виділення лейбла *!*/
-/*}*/
-
-/*.input-Mit-Label input {*/
-/*    padding: 8px;*/
-/*    font-size: 14px;*/
-/*    border: 1px solid #ccc; !* Оформлення поля вводу *!*/
-/*    border-radius: 4px;*/
-/*}*/
-/*.button-add-task {*/
-/*    background-color: #f0f0f0;*/
-/*    cursor: pointer;*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.button-add-task:hover {*/
-/*    background-color: #ddd;*/
-/*}*/
-
+/* Вхідні поля з лейблом */
 .input-Mit-Label {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
-    width: 100%; /* Забезпечує однакову ширину */
-    max-width: 300px; /* Обмежує максимальну ширину */
 }
 
 .input-Mit-Label label {
-    margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.input-Mit-Label input,
-.button-add-task {
-    width: 100%; /* Робить однакову ширину */
+.input-Mit-Label input {
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transition: 0.3s ease-in-out;
-    box-sizing: border-box; /* Щоб padding не впливав на ширину */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.input-Mit-Label input {
-    background-color: #fff;
-}
-
+/* Кнопка додавання завдання */
 .button-add-task {
-    background-color: #f0f0f0;
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
-    margin-top: 5px; /* Додає відступ між input і кнопкою */
+    transition: 0.3s;
 }
 
 .button-add-task:hover {
-    background-color: #ddd;
+    background-color: #218838;
 }
 
+/* Список завдань */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Рядок списку */
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+/* Відступи в рядку списку */
+li span {
+    flex: 1;
+    padding-left: 10px;
+}
+
+/* Ширина колонок у рядках списку */
+li .span-title {
+    flex: 3;
+}
+
+li .span-period {
+    flex: 2;
+}
+
+li .span-user {
+    flex: 2;
+}
+
+li .span-change {
+    flex: 1;
+    text-align: center;
+}
+
+/* Стиль для чекбоксу */
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Кнопки видалення та редагування */
+button {
+    padding: 6px 10px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:nth-of-type(1) {
+    background-color: #ffc107;
+    color: black;
+}
+
+button:nth-of-type(1):hover {
+    background-color: #e0a800;
+}
+
+button:nth-of-type(2) {
+    background-color: #dc3545;
+    color: white;
+}
+
+button:nth-of-type(2):hover {
+    background-color: #c82333;
+}
+
+/* Фільтри */
+button:nth-of-type(3),
+button:nth-of-type(4),
+button:nth-of-type(5) {
+    background-color: #007bff;
+    color: white;
+    margin-top: 10px;
+    width: 30%;
+    padding: 8px;
+}
+
+button:nth-of-type(3):hover,
+button:nth-of-type(4):hover,
+button:nth-of-type(5):hover {
+    background-color: #0056b3;
+}
+
+/* Шапка таблиці */
+.headerTable {
+    flex: 1;
+    /*width: 97%;*/
+    display: flex;
+
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-left: 10px;
+    padding: 10px;
+    background-color:  #555555;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Окремі заголовки в шапці таблиці */
+.headerTable span {
+    flex: 1;
+    text-align: left;
+    padding-left: 10px;
+}
+
+/* Ширина колонок у шапці таблиці */
+.headerTable .span-title {
+    /*flex: 3;*/
+    flex: 4;
+
+}
+
+.headerTable .span-period {
+    /*flex: 2;*/
+    flex: 2;
+}
+
+.headerTable .span-user {
+    flex: 2;
+
+}
+
+.headerTable .span-change {
+    flex: 1;
+
+}
+
+/* Окремі стилі для рядків списку */
+.headerTable, li {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.headerTable span,
+li span {
+    padding-left: 10px;
+    text-align: center;
+    justify-content: center;
+}
+
+
+.string-task {
+    flex: 1;
+    width: 300px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}

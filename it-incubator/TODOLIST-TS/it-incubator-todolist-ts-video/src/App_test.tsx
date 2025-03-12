@@ -23,25 +23,32 @@ function App_test() {
     ]
 
     let [currentTasks, setCurrentTasks] = useState(tasks_test)
-    let[filter, setFilter] = useState<FilterValuesType>("all");
+    let [filter, setFilter] = useState<FilterValuesType>("all");
 
     const removeTasks = (id: string) => {
         let newTasks = currentTasks.filter(t => t.id !== id);
         setCurrentTasks(newTasks)
     }
 
-    function addTask(title: string, newTaskPeriod: string, newTaskUser: string){
+    function addTask(title: string, newTaskPeriod: string,
+                     newTaskUser: string, summ: number,
+                     quantity: number, prise: number, unit: string) {
         let newTask = {
             id: v1(),
             title: title,
             isDone: false,
             period: newTaskPeriod,
-            user: newTaskUser
+            user: newTaskUser,
+            summ: summ,
+            quantity: quantity,
+            prise: prise,
+            unit: unit
+
+
         }
-        let newTasks=[newTask,...currentTasks]
+        let newTasks = [newTask, ...currentTasks]
         setCurrentTasks(newTasks)
     }
-
 
 
     function changeFilter(value: FilterValuesType) {
@@ -51,10 +58,10 @@ function App_test() {
     let taskForTodolist = currentTasks;
     // ---------------------------------------------- filtered script home
     if (filter === "active") {
-        taskForTodolist=currentTasks.filter(t=>t.isDone === false)
+        taskForTodolist = currentTasks.filter(t => t.isDone === false)
     }
     if (filter === "completed") {
-        taskForTodolist=currentTasks.filter(t=>t.isDone === true)
+        taskForTodolist = currentTasks.filter(t => t.isDone === true)
     }
     // ---------------------------------------------- filtered script end
 
