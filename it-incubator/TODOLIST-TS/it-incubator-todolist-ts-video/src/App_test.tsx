@@ -4,6 +4,7 @@ import {Todolist} from "./Todolist";
 import {Todolist_test} from "./Todolist_test";
 
 import {tasks_test} from "./tasks_test";
+import {v1} from "uuid";
 
 export type FilterValuesType = "all" | "completed" | "active"
 
@@ -24,10 +25,24 @@ function App_test() {
     let [currentTasks, setCurrentTasks] = useState(tasks_test)
     let[filter, setFilter] = useState<FilterValuesType>("all");
 
-    const removeTasks = (id: number) => {
+    const removeTasks = (id: string) => {
         let newTasks = currentTasks.filter(t => t.id !== id);
         setCurrentTasks(newTasks)
     }
+
+    function addTask(title: string, newTaskPeriod: string, newTaskUser: string){
+        let newTask = {
+            id: v1(),
+            title: title,
+            isDone: false,
+            period: newTaskPeriod,
+            user: newTaskUser
+        }
+        let newTasks=[newTask,...currentTasks]
+        setCurrentTasks(newTasks)
+    }
+
+
 
     function changeFilter(value: FilterValuesType) {
         setFilter(value);
@@ -47,10 +62,11 @@ function App_test() {
         <div className="App">
 
             <Todolist_test
-                title="What to lern ?"
+                title="What to learn ?"
                 tasks={taskForTodolist}
                 removeTasks={removeTasks}
                 changeFilter={changeFilter}
+                addTask={addTask}
 
             />
 

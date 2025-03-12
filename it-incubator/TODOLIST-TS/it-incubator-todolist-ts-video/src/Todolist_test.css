@@ -1,0 +1,68 @@
+/*.input-Mit-Label {*/
+/*    display: flex;*/
+/*    flex-direction: column; !* Розташовує елементи по вертикалі *!*/
+/*    margin-bottom: 10px; !* Додає відступ між групами елементів *!*/
+/*}*/
+
+/*.input-Mit-Label label {*/
+/*    margin-bottom: 5px; !* Відступ між лейблом і полем вводу *!*/
+/*    font-size: 14px; !* Розмір шрифта для лейбла *!*/
+/*    font-weight: bold; !* Для виділення лейбла *!*/
+/*}*/
+
+/*.input-Mit-Label input {*/
+/*    padding: 8px;*/
+/*    font-size: 14px;*/
+/*    border: 1px solid #ccc; !* Оформлення поля вводу *!*/
+/*    border-radius: 4px;*/
+/*}*/
+/*.button-add-task {*/
+/*    background-color: #f0f0f0;*/
+/*    cursor: pointer;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.button-add-task:hover {*/
+/*    background-color: #ddd;*/
+/*}*/
+
+.input-Mit-Label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 100%; /* Забезпечує однакову ширину */
+    max-width: 300px; /* Обмежує максимальну ширину */
+}
+
+.input-Mit-Label label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.input-Mit-Label input,
+.button-add-task {
+    width: 100%; /* Робить однакову ширину */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+    box-sizing: border-box; /* Щоб padding не впливав на ширину */
+}
+
+.input-Mit-Label input {
+    background-color: #fff;
+}
+
+.button-add-task {
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px; /* Додає відступ між input і кнопкою */
+}
+
+.button-add-task:hover {
+    background-color: #ddd;
+}
+

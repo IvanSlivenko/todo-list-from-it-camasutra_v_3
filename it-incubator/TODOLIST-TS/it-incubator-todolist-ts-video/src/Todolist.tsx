@@ -1,8 +1,8 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {FilterValuesType} from "./App";
 
 export type TaskType = {
-    id: number,
+    id: string,
     title: string,
     isDone: boolean
 
@@ -11,24 +11,31 @@ export type TaskType = {
 export type TodolistType ={
     title: string
     tasks: Array<TaskType>
-    removeTask: (id: number) => void
+    removeTask: (id: string) => void
     changeFilter: (value: FilterValuesType) => void
+    addTask: (title: string) => void
 
 
 }
 
 export function Todolist (props: TodolistType) {
 
-    const sendMessage=(title: string)=>{
-        alert(`Ви виявили бажання видалити завдання${title}` )
+    let [newTaskTitle, setNewTaskTitle] = useState("")
 
+    const titleChangeHadler= (e:ChangeEvent<HTMLInputElement>)=>{
+        setNewTaskTitle(e.currentTarget.value)
     }
 
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <input/>
-            <button>+</button>
+            <input
+                value={newTaskTitle}
+                onChange={ (e:ChangeEvent<HTMLInputElement>)=>{setNewTaskTitle(e.currentTarget.value)}}
+                // onChange={ (e)=>titleChangeHadler(e.currentTarget.value)}
+
+            />
+            <button onClick={()=> {props.addTask(newTaskTitle)}}>+</button>
             <ul>
                 {
                     props.tasks.map((t) =>
