@@ -21,11 +21,14 @@ export type TodolistType = {
     changeFilter: (value: FilterValuesType) => void
     addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
               newTaskSumm: number, quantity: number, prise: number,
-              unit: string) => void
+              unit: string) => void,
+    changeStatus: (taskId: string, isDone: boolean) => void
 
 }
 
 export function Todolist_test(props: TodolistType) {
+
+    let [isHidden, setIsHidden] = useState(true)
 
     let [newTaskTitle, setNewTaskTitle] = useState("")
     let [newTaskPeriod, setNewTaskPeriod] = useState("")
@@ -35,7 +38,13 @@ export function Todolist_test(props: TodolistType) {
     let [newTaskQuantity, setNewTaskQuantity] = useState(0)
     let [newTaskPrise, setNewTaskPrise] = useState(0)
 
-    useEffect(()=>{setNewTaskSumm(parseFloat((newTaskPrise * newTaskQuantity).toFixed(2)))},[newTaskPrise,newTaskQuantity])
+    useEffect(() => {
+        setNewTaskSumm(parseFloat((newTaskPrise * newTaskQuantity).toFixed(2)))
+    }, [newTaskPrise, newTaskQuantity])
+
+    // useEffect(() => {
+    //     setNewTaskSumm(Number((newTaskPrise * newTaskQuantity).toFixed(2)));
+    // }, [newTaskPrise, newTaskQuantity]);
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
@@ -63,6 +72,7 @@ export function Todolist_test(props: TodolistType) {
 
         setNewTaskSumm(parseFloat(parseFloat(e.currentTarget.value).toFixed(2)))
     }
+
     const onNewQuantityChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
         if (e.currentTarget.value.length !== 0) {
@@ -75,20 +85,16 @@ export function Todolist_test(props: TodolistType) {
         }
     }
 
-
-
-
     const onNewPriseChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.value.length !== 0) {
             const prise = parseFloat(e.currentTarget.value);
             setNewTaskPrise(parseFloat(prise.toFixed(2)));
-            console.log(newTaskPrise)
+
         } else {
             // Якщо поле порожнє, встановіть значення в 0
             setNewTaskPrise(0);
         }
     }
-
 
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.ctrlKey && e.key === "Enter") {
@@ -96,8 +102,8 @@ export function Todolist_test(props: TodolistType) {
                 && newTaskPeriod.trim() !== ""
                 && newTaskUser.trim() !== ""
                 && newTaskUnit.trim() !== ""
-                && newTaskQuantity !==0
-                && newTaskPrise !==0) {
+                && newTaskQuantity !== 0
+                && newTaskPrise !== 0) {
                 props.addTask(newTaskTitle, newTaskPeriod, newTaskUser,
                     newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit);
 
@@ -118,8 +124,8 @@ export function Todolist_test(props: TodolistType) {
             && newTaskPeriod.trim() !== ""
             && newTaskUser.trim() !== ""
             && newTaskUnit.trim() !== ""
-            && newTaskQuantity !==0
-            && newTaskPrise !==0) {
+            && newTaskQuantity !== 0
+            && newTaskPrise !== 0) {
             props.addTask(newTaskTitle, newTaskPeriod, newTaskUser,
                 newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit);
 
@@ -134,60 +140,107 @@ export function Todolist_test(props: TodolistType) {
         }
     };
 
-    const onRemoveTaskHandler = (id: string) => {
-        props.removeTasks(id)
-    }
-
-    const onChangeTask =(id: string)=>{
+    const onChangeTask = (id: string) => {
         alert(`Ви намагаєтесь редагувати завдання з id : ${id}`)
     }
 
+    const onAllClickHandler = () => {
+        props.changeFilter("all")
+    }
 
-    return <div className={"top"}>
-        <h3>{props.title}</h3>
-        <div>
+    const onActiveClickHandler = () => {
+        props.changeFilter("active")
+    }
+
+    const onCompletedClickHandler = () => {
+        props.changeFilter("completed")
+    }
+
+    const onChangeIsHidentInputGroup = (isHidden: boolean) => {
+        setIsHidden(!isHidden);
+    }
+
+
+    return <div className={"container"}>
+        <div className="title-group">
+            <h3>{props.title}</h3>
+            {
+                isHidden ?
+                    <button
+                        className="btn-data-group-view"
+                        onClick={() => onChangeIsHidentInputGroup(true)}>Відобразити...
+                    </button>
+                    :
+                    <button
+                        className="btn-data-group-hidden"
+                        onClick={() => onChangeIsHidentInputGroup(false)}>Сховати...
+                    </button>
+            }
+
+        </div>
+
+
+        <div className={isHidden ? "data-group-hidden" : "data-group-view"}>
+            <div className='input-Mit-Label-Right'>
+
+                <input
+                    className="title-group-input-date"
+                    id="taskPeriod"
+                    type="date"
+                    value={newTaskPeriod}
+                    onChange={onNewPeriodChangeHandler}
+                />
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="taskPeriod">Період
+                </label>
+            </div>
+
 
             <div className='input-Mit-Label'>
-                <label htmlFor="User">Покупець</label>
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="User">Покупець</label>
                 <input
+                    className="title-group-input"
                     id="User"
                     value={newTaskUser}
                     onChange={onNewUserChangeHandler}
                     onKeyDown={onKeyDownHandler}
                 />
             </div>
+
             <div className='input-Mit-Label'>
-                <label htmlFor="taskTitle">Товар</label>
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="taskTitle">Товар
+                </label>
                 <input
+                    className="title-group-input"
                     id="taskTitle"
                     value={newTaskTitle}
                     onChange={onNewTitleChangeHandler}
                 />
             </div>
 
-            <div className='input-Mit-Label'>
-                <label htmlFor="unit">Одиниця</label>
+            <div className='input-Mit-Label-Midle'>
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="unit">Одиниця
+                </label>
                 <input
+                    className="title-group-input-short"
                     id="unit"
                     value={newTaskUnit}
                     onChange={onNewUnitChangeHandler}
                 />
-            </div>
 
-            <div className='input-Mit-Label'>
-                <label htmlFor="taskPeriod">Період</label>
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="quantity">Кількість
+                </label>
                 <input
-                    id="taskPeriod"
-                    type="date"
-                    value={newTaskPeriod}
-                    onChange={onNewPeriodChangeHandler}
-                />
-            </div>
-
-            <div className='input-Mit-Label'>
-                <label htmlFor="quantity">Кількість</label>
-                <input
-
+                    className="title-group-input-short"
                     id="quantity"
                     type="number"
                     // step="0.01"
@@ -195,11 +248,13 @@ export function Todolist_test(props: TodolistType) {
                     onChange={onNewQuantityChangeHandler}
                     onKeyDown={onKeyDownHandler}
                 />
-            </div>
 
-            <div className='input-Mit-Label'>
-                <label htmlFor="prise">Ціна</label>
+                <label
+                    className="title-group-lable-right"
+                    htmlFor="prise">Ціна
+                </label>
                 <input
+                    className="title-group-input-short"
                     id="prise"
                     type="number"
                     // step="0.01"
@@ -210,8 +265,20 @@ export function Todolist_test(props: TodolistType) {
             </div>
 
             <div className='input-Mit-Label'>
-                <label htmlFor="Summ">Cума</label>
+
+            </div>
+
+            <div className='input-Mit-Label'>
+
+            </div>
+
+            <div className='input-Mit-Label-Right'>
+                <label
+                    className="title-group-lable-left"
+                    htmlFor="Summ">Cума
+                </label>
                 <input
+                    className="title-group-input-short"
                     id="Summ"
                     type="number"
                     // step="0."
@@ -219,49 +286,65 @@ export function Todolist_test(props: TodolistType) {
                     onChange={onNewSummChangeHandler}
                     onKeyDown={onKeyDownHandler}
                 />
+                <button
+                    className={'button-add-task'}
+                    onClick={onAddTaskHandler}
+                >Додати замовлення
+                </button>
             </div>
 
 
-            <button
-                className={'button-add-task'}
-                onClick={onAddTaskHandler}
-            >+
-            </button>
-            <div className="headerTable">
-                <span className="span-title">Товар</span>
-                <span className="span-user">Од.виміру</span>
-                <span className="span-period">Період</span>
-                <span className="span-user">Кількість</span>
-                <span className="span-user">Ціна</span>
-                <span className="span-user">Cума</span>
-                <span className="span-user">Покупець</span>
-                <span className="span-change">Дії</span>
-            </div>
-            <ul>
-                {
-                    props.tasks.map((t) =>
-                        <li
-                            key={t.id}>
-                            <input
-                                className="string-task"
-                                type="checkbox"
-                                checked={t.isDone}/>
-                            <span className="span-title">{t.title}</span>
-                            <span className="span-title">{t.unit}</span>
-                            <span className="span-period">{t.period}</span>
-                            <span className="span-period">{t.quantity}</span>
-                            <span className="span-period">{t.prise}</span>
-                            <span className="span-period">{t.summ}</span>
-                            <span className="span-user">{t.user}</span>
-                            <button onClick={() => onChangeTask(t.id)}>...</button>
-                            <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
-                        </li>)
-                }
-            </ul>
-            <button onClick={() => props.changeFilter("all")}>All</button>
-            <button onClick={() => props.changeFilter("active")}>Active</button>
-            <button onClick={() => props.changeFilter("completed")}>Completed</button>
         </div>
 
+        <div className="headerTable">
+            <span className="tableHeader-span-cheked">S</span>
+            <span className="tableHeader-span-title">Товар</span>
+            <span className="tableHeader-span-unit">Од. виміру</span>
+            <span className="tableHeader-span-period">Період</span>
+            <span className="tableHeader-span-quantity">Кількість</span>
+            <span className="tableHeader-span-prise">Ціна</span>
+            <span className="tableHeader-span-summ">Cума</span>
+            <span className="tableHeader-span-user">Покупець</span>
+            <span className="tableHeader-span-change">Дії</span>
+        </div>
+        <div className="table-body">
+            <ul>
+                {
+                    props.tasks.map((t) => {
+                        const onRemoveTaskHandler = (id: string) => {
+                            props.removeTasks(id)
+                        }
+                        return <li
+                            className="table-string"
+                            key={t.id}>
+                            <input
+                                className="span-cheked"
+                                type="checkbox"
+                                // checked={t.isDone}
+                                onChange={() => props.changeStatus(t.id, t.isDone)}
+                            />
+                            <span className="span-title">{t.title}</span>
+                            <span className="span-unit">{t.unit}</span>
+                            <span className="span-period">{t.period}</span>
+                            <span className="span-quantity">{t.quantity}</span>
+                            <span className="span-prise">{t.prise}</span>
+                            <span className="span-summ">{t.summ}</span>
+                            <span className="span-user">{t.user}</span>
+                            <div className="span-change">
+                                <button onClick={() => onChangeTask(t.id)}>...</button>
+                                <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
+                            </div>
+
+                        </li>
+                    })
+                }
+            </ul>
+        </div>
+
+        <button onClick={onAllClickHandler}>All</button>
+        <button onClick={onActiveClickHandler}>Active</button>
+        <button onClick={onCompletedClickHandler}>Completed</button>
     </div>
+
+
 }

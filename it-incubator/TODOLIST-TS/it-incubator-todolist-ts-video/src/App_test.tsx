@@ -55,6 +55,15 @@ function App_test() {
         setFilter(value);
     }
 
+    function changeStatus(taskId: string, isDone: boolean) {
+        let task = currentTasks.find(t => t.id === taskId)
+        if (task) {
+            task.isDone = !isDone;
+        }
+        let newTask = [...currentTasks]
+        setCurrentTasks(newTask)
+    }
+
     let taskForTodolist = currentTasks;
     // ---------------------------------------------- filtered script home
     if (filter === "active") {
@@ -74,6 +83,7 @@ function App_test() {
                 removeTasks={removeTasks}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeStatus={changeStatus}
 
             />
 
