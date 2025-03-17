@@ -52,14 +52,9 @@ export function Todolist_test(props: TodolistType) {
     let [errorSumm, setErrorSumm] = useState<string | null>(null)
 
 
-
-
-
     useEffect(() => {
         setNewTaskSumm(parseFloat((newTaskPrise * newTaskQuantity).toFixed(2)))
     }, [newTaskPrise, newTaskQuantity])
-
-
 
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -207,32 +202,32 @@ export function Todolist_test(props: TodolistType) {
             setErrorPeriod(null);
             setErrorUser(null)
             setErrorTitle(null);
-            setErrorUnit( null);
+            setErrorUnit(null);
             setErrorQuantity(null);
-            setErrorPrise( null);
+            setErrorPrise(null);
             setErrorSumm(null);
         } else {
             setError("!!!")
 
-            if(newTaskPeriod.trim() === ""){
+            if (newTaskPeriod.trim() === "") {
                 setErrorPeriod("!!!")
             }
-            if(newTaskUser.trim() === ""){
+            if (newTaskUser.trim() === "") {
                 setErrorUser("!!!")
             }
-            if(newTaskTitle.trim() === ""){
+            if (newTaskTitle.trim() === "") {
                 setErrorTitle('!!!')
             }
-            if(newTaskUnit.trim() === ""){
+            if (newTaskUnit.trim() === "") {
                 setErrorUnit('!!!')
             }
-            if(newTaskQuantity < 0.01){
+            if (newTaskQuantity < 0.01) {
                 setErrorQuantity('!!!')
             }
-            if(newTaskPrise < 0.01){
+            if (newTaskPrise < 0.01) {
                 setErrorPrise('!!!')
             }
-            if(newTaskSumm < 0.01){
+            if (newTaskSumm < 0.01) {
                 setErrorPrise('!!!')
             }
 
@@ -427,11 +422,17 @@ export function Todolist_test(props: TodolistType) {
                             props.changeTaskStatus(t.id, e.currentTarget.checked)
                         }
                         return <li
-                            className="table-string"
+                            className={t.isDone === true
+                                ?
+                                "table-string" && "is-done"
+                                :
+                                "table-string"
+                            }
                             key={t.id}>
                             <input
                                 className="span-cheked"
                                 type="checkbox"
+                                checked={t.isDone}
                                 onChange={onChangeHandler}
                             />
                             <span className="span-title">{t.title}</span>
@@ -451,7 +452,6 @@ export function Todolist_test(props: TodolistType) {
                 }
             </ul>
         </div>
-
 
 
         <button

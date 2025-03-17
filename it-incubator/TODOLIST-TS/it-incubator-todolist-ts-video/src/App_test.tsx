@@ -74,7 +74,16 @@ function App_test() {
     // ---------------------------------------------- filtered script end
 
     return (
-        <div className="App">
+        <div className="App_custome">
+
+            <div className="app-header">
+                <input
+                    type="text"
+                    className="input-add-tasks-custome"
+                    placeholder="Вкажіть назву "
+                />
+                <button>+</button>
+            </div>
 
             <Todolist_test
                 title="What to learn ?"
@@ -83,7 +92,7 @@ function App_test() {
                 changeFilter={changeFilter}
                 addTask={addTask}
                 changeTaskStatus={changeStatus}
-                filter = {filter}
+                filter={filter}
 
             />
 
