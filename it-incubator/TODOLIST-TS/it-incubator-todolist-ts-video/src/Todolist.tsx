@@ -14,7 +14,8 @@ export type TodolistType = {
     removeTask: (id: string) => void
     changeFilter: (value: FilterValuesType) => void
     addTask: (title: string) => void
-    changeStatus: (taskId: string, isDone: boolean) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterValuesType
 
 
 }
@@ -22,21 +23,26 @@ export type TodolistType = {
 export function Todolist(props: TodolistType) {
 
     let [newTaskTitle, setNewTaskTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.ctrlKey && e.key === "Enter") {
-            props.addTask(newTaskTitle)
-            setNewTaskTitle("")
+        setError(null)
+        if (newTaskTitle.trim() !== "" && e.ctrlKey && e.key === "Enter") {
+            addTask();
         }
     }
 
     const addTask = () => {
-        props.addTask(newTaskTitle)
-        setNewTaskTitle("")
+        if (newTaskTitle.trim() !== "") {
+            props.addTask(newTaskTitle)
+            setNewTaskTitle("")
+        } else {
+            setError("!!!!!")
+        }
     }
 
     const onAllClickHandler = () => {
@@ -54,35 +60,64 @@ export function Todolist(props: TodolistType) {
         <h3>{props.title}</h3>
         <div>
             <input
+                className={error ? "error" : ""}
                 value={newTaskTitle}
                 onChange={onNewTitleChangeHandler}
                 onKeyDown={onKeyPressHandler}
             />
+            {
+                error
+                    ?
+                    <div className={error ? "error-message" : ""}> Field is requared </div>
+                    :
+                    null
+
+            }
+
+
             <button onClick={addTask}>+</button>
             <ul>
                 {
-                    props.tasks.map((t) =>{
+                    props.tasks.map((t) => {
 
-                      const  onRemoveHandler = () =>{
-                          props.removeTask(t.id)
-                      }
-                      return  <li
+                        const onRemoveHandler = () => {
+                            props.removeTask(t.id)
+                        }
+
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            // console.log(t.title + e.currentTarget.checked)
+                            props.changeTaskStatus(t.id, e.currentTarget.checked)
+                        }
+                        return <li
                             key={t.id}>
                             <input
                                 type="checkbox"
-                                // checked={t.isDone}
-                                onChange={()=>props.changeStatus(t.id, t.isDone)}
+                                // checked={value}
+                                onChange={onChangeHandler}
                             />
                             <span>{t.title}</span>
                             <button onClick={onRemoveHandler}>x</button>
 
-                        </li>})
+                        </li>
+                    })
 
                 }
             </ul>
-            <button onClick={onAllClickHandler}>All</button>
-            <button onClick={onActiveClickHandler}>Active</button>
-            <button onClick={onCompletedClickHandler}>Completed</button>
+            <button
+                className={props.filter === "all" ? "active-filter" : ""}
+                onClick={onAllClickHandler}
+            >All
+            </button>
+            <button
+                className={props.filter === "active" ? "active-filter" : ""}
+                onClick={onActiveClickHandler}
+            >Active
+            </button>
+            <button
+                className={props.filter === "completed" ? "active-filter" : ""}
+                onClick={onCompletedClickHandler}
+            >Completed
+            </button>
         </div>
 
     </div>

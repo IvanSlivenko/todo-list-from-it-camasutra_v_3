@@ -1,8 +1,12 @@
 .container {
     /*background-color: #555555;*/
     min-width: 50%;
-    padding: 2%;
+    margin-top: 1%;
+    margin-left: 1%;
+    padding: 1%;
     justify-content: center;
+    border: 2px solid slategrey;
+    border-radius: 5px;
 
 }
 
@@ -45,7 +49,7 @@ button:hover {
     background-color: #28a745;
     height: max-content;
     color: white;
-    /*margin-left: 15px;*/
+    margin-left: 15px;
     justify-content: center;
 }
 
@@ -74,35 +78,35 @@ button:nth-of-type(1) {
     /*color: black;*/
 }
 
-button:nth-of-type(1):hover {
-    /*background-color: #e0a800;*/
-}
+/*button:nth-of-type(1):hover {*/
+/*    !*background-color: #e0a800;*!*/
+/*}*/
 
-button:nth-of-type(2) {
-    background-color: #dc3545;
-    color: white;
-}
+/*button:nth-of-type(2) {*/
+/*    background-color: #dc3545;*/
+/*    color: white;*/
+/*}*/
 
-button:nth-of-type(2):hover {
-    background-color: #c82333;
-}
+/*button:nth-of-type(2):hover {*/
+/*    background-color: #c82333;*/
+/*}*/
 
-/* Фільтри */
-button:nth-of-type(3),
-button:nth-of-type(4),
-button:nth-of-type(5) {
-    background-color: #007bff;
-    color: white;
-    margin-top: 10px;
-    width: 30%;
-    padding: 8px;
-}
+/*!* Фільтри *!*/
+/*button:nth-of-type(3),*/
+/*button:nth-of-type(4),*/
+/*button:nth-of-type(5) {*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    margin-top: 10px;*/
+/*    width: 30%;*/
+/*    padding: 8px;*/
+/*}*/
 
-button:nth-of-type(3):hover,
-button:nth-of-type(4):hover,
-button:nth-of-type(5):hover {
-    background-color: #0056b3;
-}
+/*button:nth-of-type(3):hover,*/
+/*button:nth-of-type(4):hover,*/
+/*button:nth-of-type(5):hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
 
 . span,
@@ -147,17 +151,35 @@ h3 {
     height: 100%;
     border-bottom: 2px solid grey;
     align-items: center;
-    padding-bottom: 5px;
+    /*padding-bottom: 5px;*/
+    margin-bottom: 2%;
 }
 
 .input-Mit-Label-Midle {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     height: 45px;
+    padding-right: 0;
+    padding-left: 0.5%;
     border-bottom: 2px solid grey;
+    /*background-color: #c79a63;*/
+
+}
+
+.input-Mit-Label-Midle-Midle {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    padding-right: 0;
+    padding-left: 0.5%;
+    border-bottom: 2px solid grey;
+    /*background-color: #c79a63;*/
 
 }
 
@@ -166,14 +188,12 @@ h3 {
     color: #282c34;
     padding: 0;
     margin: 0;
-
     /*min-width: 95%;*/
     /*max-width: 100%;*/
-    min-height: 15%;
+    min-height: 20%;
     align-items: center;
     /*justify-content: right;*/
     /*border: 1px solid #282c34;*/
-
     /*text-align: right; !* Вирівнювання тексту по правому краю *!*/
     display: flex; /* Додати flex-контейнер */
     justify-content: flex-end; /* Вирівнювання тексту по правому краю */
@@ -202,8 +222,8 @@ h3 {
 }
 
 .title-group-input {
-    min-width: 99%;
-    max-width: 99%;
+    min-width: 87%;
+    max-width: 80%;
     width: auto;
     min-height: 50%;
     /*background-color: #8b5e3c;*/
@@ -491,7 +511,7 @@ li .span-prise {
     white-space: nowrap;
     text-overflow: ellipsis;
     align-items: center;
-    border: 1px solid grey;
+    /*border: 1px solid grey;*/
 }
 
 li .span-summ {
@@ -503,7 +523,7 @@ li .span-summ {
     text-overflow: ellipsis;
     align-items: center;
     justify-content: flex-end;
-    border: 1px solid grey;
+    /*border: 1px solid grey;*/
 }
 
 li .span-user {
@@ -533,9 +553,11 @@ li .span-change {
 .data-group-hidden {
     /*background: #28a745;*/
     display: none;
+
 }
 
 .data-group-view {
+    /*background-color: #c79a63;*/
     display: grid;
 }
 
@@ -550,6 +572,6 @@ li .span-change {
 /* Стиль фокусу */
 button:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    /*box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);*/
 }
 

@@ -58,10 +58,9 @@ function App_test() {
     function changeStatus(taskId: string, isDone: boolean) {
         let task = currentTasks.find(t => t.id === taskId)
         if (task) {
-            task.isDone = !isDone;
+            task.isDone = isDone;
         }
-        let newTask = [...currentTasks]
-        setCurrentTasks(newTask)
+        setCurrentTasks([...currentTasks])
     }
 
     let taskForTodolist = currentTasks;
@@ -83,7 +82,8 @@ function App_test() {
                 removeTasks={removeTasks}
                 changeFilter={changeFilter}
                 addTask={addTask}
-                changeStatus={changeStatus}
+                changeTaskStatus={changeStatus}
+                filter = {filter}
 
             />
 

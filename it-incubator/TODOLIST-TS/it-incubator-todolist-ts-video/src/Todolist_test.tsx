@@ -22,29 +22,45 @@ export type TodolistType = {
     addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
               newTaskSumm: number, quantity: number, prise: number,
               unit: string) => void,
-    changeStatus: (taskId: string, isDone: boolean) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterValuesType
 
 }
 
 export function Todolist_test(props: TodolistType) {
 
+    const getTodayDate = () => {
+        return new Date().toISOString().split("T")[0];
+    };
+
     let [isHidden, setIsHidden] = useState(true)
 
     let [newTaskTitle, setNewTaskTitle] = useState("")
-    let [newTaskPeriod, setNewTaskPeriod] = useState("")
+    let [newTaskPeriod, setNewTaskPeriod] = useState(getTodayDate)
     let [newTaskUser, setNewTaskUser] = useState("")
-    let [newTaskUnit, setNewTaskUnit] = useState("")
+    let [newTaskUnit, setNewTaskUnit] = useState("шт.")
     let [newTaskSumm, setNewTaskSumm] = useState(0)
-    let [newTaskQuantity, setNewTaskQuantity] = useState(0)
-    let [newTaskPrise, setNewTaskPrise] = useState(0)
+    let [newTaskQuantity, setNewTaskQuantity] = useState<number>(1)
+    let [newTaskPrise, setNewTaskPrise] = useState<number>(0.01)
+    let [error, setError] = useState<string | null>(null)
+    let [errorPeriod, setErrorPeriod] = useState<string | null>(null)
+    let [errorUser, setErrorUser] = useState<string | null>(null)
+    let [errorTitle, setErrorTitle] = useState<string | null>(null)
+    let [errorUnit, setErrorUnit] = useState<string | null>(null)
+    let [errorQuantity, setErrorQuantity] = useState<string | null>(null)
+    let [errorPrise, setErrorPrise] = useState<string | null>(null)
+    let [errorSumm, setErrorSumm] = useState<string | null>(null)
+
+
+
+
 
     useEffect(() => {
         setNewTaskSumm(parseFloat((newTaskPrise * newTaskQuantity).toFixed(2)))
     }, [newTaskPrise, newTaskQuantity])
 
-    // useEffect(() => {
-    //     setNewTaskSumm(Number((newTaskPrise * newTaskQuantity).toFixed(2)));
-    // }, [newTaskPrise, newTaskQuantity]);
+
+
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
@@ -96,7 +112,9 @@ export function Todolist_test(props: TodolistType) {
         }
     }
 
+
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
         if (e.ctrlKey && e.key === "Enter") {
             if (newTaskTitle.trim() !== ""
                 && newTaskPeriod.trim() !== ""
@@ -104,18 +122,65 @@ export function Todolist_test(props: TodolistType) {
                 && newTaskUnit.trim() !== ""
                 && newTaskQuantity !== 0
                 && newTaskPrise !== 0) {
-                props.addTask(newTaskTitle, newTaskPeriod, newTaskUser,
-                    newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit);
-
-                setNewTaskTitle("");
-                setNewTaskPeriod("");
-                setNewTaskUser("");
-                setNewTaskUnit("")
-                setNewTaskQuantity(0);
-                setNewTaskPrise(0);
-                setNewTaskSumm(0);
-
+                onAddTaskHandler();
             }
+        }
+    };
+
+    const onKeyDownPeriodHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskPeriod.trim() !== "") {
+            setErrorPeriod(null)
+        } else {
+            setErrorPeriod("!!!")
+        }
+
+    };
+
+    const onKeyDownUserHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorUser(null)
+        } else {
+            setErrorUser("!!!")
+        }
+
+    };
+    const onKeyDownTitleHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorTitle(null)
+        } else {
+            setErrorTitle("!!!")
+        }
+
+    };
+
+    const onKeyDownUnitHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorUnit(null)
+        } else {
+            setErrorUnit("!!!")
+        }
+    };
+    const onKeyDownGuantityHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskQuantity < 0.01) {
+            setErrorQuantity(null)
+        } else {
+            setErrorQuantity("!!!")
+        }
+    };
+
+    const onKeyDownPriseHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskPrise < 0.01) {
+            setErrorPrise(null)
+        } else {
+            setErrorPrise("!!!")
+        }
+    };
+
+    const onKeyDownSummHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskSumm < 0.01) {
+            setErrorSumm(null)
+        } else {
+            setErrorSumm("!!!")
         }
     };
 
@@ -125,7 +190,8 @@ export function Todolist_test(props: TodolistType) {
             && newTaskUser.trim() !== ""
             && newTaskUnit.trim() !== ""
             && newTaskQuantity !== 0
-            && newTaskPrise !== 0) {
+            && newTaskPrise !== 0
+            && newTaskSumm !== 0) {
             props.addTask(newTaskTitle, newTaskPeriod, newTaskUser,
                 newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit);
 
@@ -136,6 +202,39 @@ export function Todolist_test(props: TodolistType) {
             setNewTaskQuantity(0);
             setNewTaskPrise(0);
             setNewTaskSumm(0);
+
+            setError(null);
+            setErrorPeriod(null);
+            setErrorUser(null)
+            setErrorTitle(null);
+            setErrorUnit( null);
+            setErrorQuantity(null);
+            setErrorPrise( null);
+            setErrorSumm(null);
+        } else {
+            setError("!!!")
+
+            if(newTaskPeriod.trim() === ""){
+                setErrorPeriod("!!!")
+            }
+            if(newTaskUser.trim() === ""){
+                setErrorUser("!!!")
+            }
+            if(newTaskTitle.trim() === ""){
+                setErrorTitle('!!!')
+            }
+            if(newTaskUnit.trim() === ""){
+                setErrorUnit('!!!')
+            }
+            if(newTaskQuantity < 0.01){
+                setErrorQuantity('!!!')
+            }
+            if(newTaskPrise < 0.01){
+                setErrorPrise('!!!')
+            }
+            if(newTaskSumm < 0.01){
+                setErrorPrise('!!!')
+            }
 
         }
     };
@@ -182,13 +281,14 @@ export function Todolist_test(props: TodolistType) {
 
         <div className={isHidden ? "data-group-hidden" : "data-group-view"}>
             <div className='input-Mit-Label-Right'>
-
                 <input
-                    className="title-group-input-date"
+                    className={errorPeriod ? "error-custome" : "title-group-input-date"}
                     id="taskPeriod"
                     type="date"
                     value={newTaskPeriod}
                     onChange={onNewPeriodChangeHandler}
+                    // onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownPeriodHandler}
                 />
                 <label
                     className="title-group-lable-right"
@@ -197,30 +297,32 @@ export function Todolist_test(props: TodolistType) {
             </div>
 
 
-            <div className='input-Mit-Label'>
+            <div className='input-Mit-Label-Right'>
                 <label
                     className="title-group-lable-right"
                     htmlFor="User">Покупець</label>
                 <input
-                    className="title-group-input"
+                    className={errorUser ? "error-custome" : "title-group-input"}
                     id="User"
                     value={newTaskUser}
                     onChange={onNewUserChangeHandler}
-                    onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownUserHandler}
                 />
             </div>
 
-            <div className='input-Mit-Label'>
+            <div className='input-Mit-Label-Right'>
+
+                <input
+                    className={errorTitle ? "error-custome" : "title-group-input"}
+                    id="taskTitle"
+                    value={newTaskTitle}
+                    onChange={onNewTitleChangeHandler}
+                    onKeyDown={onKeyDownTitleHandler}
+                />
                 <label
                     className="title-group-lable-right"
                     htmlFor="taskTitle">Товар
                 </label>
-                <input
-                    className="title-group-input"
-                    id="taskTitle"
-                    value={newTaskTitle}
-                    onChange={onNewTitleChangeHandler}
-                />
             </div>
 
             <div className='input-Mit-Label-Midle'>
@@ -229,10 +331,12 @@ export function Todolist_test(props: TodolistType) {
                     htmlFor="unit">Одиниця
                 </label>
                 <input
-                    className="title-group-input-short"
+                    // className="title-group-input-short"
+                    className={errorUnit ? "error-custome" : "title-group-input-short"}
                     id="unit"
                     value={newTaskUnit}
                     onChange={onNewUnitChangeHandler}
+                    onKeyDown={onKeyDownUnitHandler}
                 />
 
                 <label
@@ -240,13 +344,13 @@ export function Todolist_test(props: TodolistType) {
                     htmlFor="quantity">Кількість
                 </label>
                 <input
-                    className="title-group-input-short"
+                    className={errorQuantity ? "error-custome" : "title-group-input-short"}
                     id="quantity"
                     type="number"
-                    // step="0.01"
+                    step="0.01"
                     value={newTaskQuantity}
                     onChange={onNewQuantityChangeHandler}
-                    onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownGuantityHandler}
                 />
 
                 <label
@@ -254,22 +358,14 @@ export function Todolist_test(props: TodolistType) {
                     htmlFor="prise">Ціна
                 </label>
                 <input
-                    className="title-group-input-short"
+                    className={errorPrise ? "error-custome" : "title-group-input-short"}
                     id="prise"
                     type="number"
                     // step="0.01"
                     value={newTaskPrise}
                     onChange={onNewPriseChangeHandler}
-                    onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownPriseHandler}
                 />
-            </div>
-
-            <div className='input-Mit-Label'>
-
-            </div>
-
-            <div className='input-Mit-Label'>
-
             </div>
 
             <div className='input-Mit-Label-Right'>
@@ -278,21 +374,33 @@ export function Todolist_test(props: TodolistType) {
                     htmlFor="Summ">Cума
                 </label>
                 <input
-                    className="title-group-input-short"
+                    className={errorSumm ? "error-custome" : "title-group-input-short"}
                     id="Summ"
                     type="number"
                     // step="0."
                     value={newTaskSumm}
                     onChange={onNewSummChangeHandler}
-                    onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownSummHandler}
                 />
                 <button
                     className={'button-add-task'}
                     onClick={onAddTaskHandler}
                 >Додати замовлення
                 </button>
+
+
             </div>
 
+            {
+                error &&
+                <div className='input-Mit-Label-Midle-Midle'>
+                        <span
+                            className="error-message-custome">
+                            Усі поля обов'язкові
+                        </span>
+                </div>
+
+            }
 
         </div>
 
@@ -314,14 +422,17 @@ export function Todolist_test(props: TodolistType) {
                         const onRemoveTaskHandler = (id: string) => {
                             props.removeTasks(id)
                         }
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            // console.log(t.title + e.currentTarget.checked)
+                            props.changeTaskStatus(t.id, e.currentTarget.checked)
+                        }
                         return <li
                             className="table-string"
                             key={t.id}>
                             <input
                                 className="span-cheked"
                                 type="checkbox"
-                                // checked={t.isDone}
-                                onChange={() => props.changeStatus(t.id, t.isDone)}
+                                onChange={onChangeHandler}
                             />
                             <span className="span-title">{t.title}</span>
                             <span className="span-unit">{t.unit}</span>
@@ -341,9 +452,23 @@ export function Todolist_test(props: TodolistType) {
             </ul>
         </div>
 
-        <button onClick={onAllClickHandler}>All</button>
-        <button onClick={onActiveClickHandler}>Active</button>
-        <button onClick={onCompletedClickHandler}>Completed</button>
+
+
+        <button
+            className={props.filter === "all" ? "active-filter" : ""}
+            onClick={onAllClickHandler}
+        >All
+        </button>
+        <button
+            className={props.filter === "active" ? "active-filter" : ""}
+            onClick={onActiveClickHandler}
+        >Active
+        </button>
+        <button
+            className={props.filter === "completed" ? "active-filter" : ""}
+            onClick={onCompletedClickHandler}
+        >Completed
+        </button>
     </div>
 
 
