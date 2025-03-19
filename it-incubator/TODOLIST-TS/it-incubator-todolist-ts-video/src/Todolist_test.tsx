@@ -23,8 +23,10 @@ export type TodolistType = {
     addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
               newTaskSumm: number, quantity: number, prise: number,
               unit: string,  todolistId: string) => void,
-    changeTaskStatus: (taskId: string, isDone: boolean,  todolistId: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean,
+                       todolistId: string) => void,
     filter: FilterValuesType
+    removeTodolist: (todolistId: string) => void
 
 }
 
@@ -36,7 +38,7 @@ export function Todolist_test(props: TodolistType) {
 
     let [isHidden, setIsHidden] = useState(true)
 
-    let [newTaskTitle, setNewTaskTitle] = useState("")
+    let [title, settitle] = useState("")
     let [newTaskPeriod, setNewTaskPeriod] = useState(getTodayDate)
     let [newTaskUser, setNewTaskUser] = useState("")
     let [newTaskUnit, setNewTaskUnit] = useState("шт.")
@@ -59,7 +61,7 @@ export function Todolist_test(props: TodolistType) {
 
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTaskTitle(e.currentTarget.value)
+        settitle(e.currentTarget.value)
     }
 
     const onNewPeriodChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +114,7 @@ export function Todolist_test(props: TodolistType) {
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.ctrlKey && e.key === "Enter") {
-            if (newTaskTitle.trim() !== ""
+            if (title.trim() !== ""
                 && newTaskPeriod.trim() !== ""
                 && newTaskUser.trim() !== ""
                 && newTaskUnit.trim() !== ""
@@ -181,17 +183,17 @@ export function Todolist_test(props: TodolistType) {
     };
 
     const onAddTaskHandler = () => {
-        if (newTaskTitle.trim() !== ""
+        if (title.trim() !== ""
             && newTaskPeriod.trim() !== ""
             && newTaskUser.trim() !== ""
             && newTaskUnit.trim() !== ""
             && newTaskQuantity !== 0
             && newTaskPrise !== 0
             && newTaskSumm !== 0) {
-            props.addTask(newTaskTitle, newTaskPeriod, newTaskUser,
-                newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit);
+            props.addTask(title.trim(), newTaskPeriod, newTaskUser,
+                newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit, props.id);
 
-            setNewTaskTitle("");
+            settitle("");
             setNewTaskPeriod("");
             setNewTaskUser("");
             setNewTaskUnit("")
@@ -216,7 +218,7 @@ export function Todolist_test(props: TodolistType) {
             if (newTaskUser.trim() === "") {
                 setErrorUser("!!!")
             }
-            if (newTaskTitle.trim() === "") {
+            if (title.trim() === "") {
                 setErrorTitle('!!!')
             }
             if (newTaskUnit.trim() === "") {
@@ -255,10 +257,16 @@ export function Todolist_test(props: TodolistType) {
         setIsHidden(!isHidden);
     }
 
+    const removeTodolist = ()=>{
+        props.removeTodolist(props.id)
+
+    }
 
     return <div className={"container"}>
         <div className="title-group">
-            <h3>{props.title}</h3>
+            <h3>{props.title}
+                <button onClick={removeTodolist}>x</button>
+            </h3>
             {
                 isHidden ?
                     <button
@@ -311,7 +319,7 @@ export function Todolist_test(props: TodolistType) {
                 <input
                     className={errorTitle ? "error-custome" : "title-group-input"}
                     id="taskTitle"
-                    value={newTaskTitle}
+                    value={title}
                     onChange={onNewTitleChangeHandler}
                     onKeyDown={onKeyDownTitleHandler}
                 />
@@ -415,12 +423,12 @@ export function Todolist_test(props: TodolistType) {
             <ul>
                 {
                     props.tasks.map((t) => {
-                        const onRemoveTaskHandler = (id: string, todolistId: string) => {
-                            props.removeTasks(id, todolistId)
+                        const onRemoveTaskHandler = (id: string) => {
+                            props.removeTasks(id, props.id)
                         }
                         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             // console.log(t.title + e.currentTarget.checked)
-                            props.changeTaskStatus(t.id, e.currentTarget.checked, t.id)
+                            props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
                         }
                         return <li
                             className={t.isDone === true

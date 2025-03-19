@@ -85,7 +85,7 @@ function App_test() {
 
     }
 
-
+//--------------------------------------------------------- Data -----------
 
     let todolistId1 = v1();
     let todolistId2 = v1();
@@ -98,11 +98,19 @@ function App_test() {
         ]
     )
 
+    let removeTodolist=(todolistId: string)=>{
+        let filteredTodolist = todolists.filter(t=>t.id !== todolistId )
+        setTodolists(filteredTodolist)
+        delete tasksObj[todolistId]
+        setTasks({...tasksObj});
+    }
+
     let [tasksObj, setTasks] = useState({
         [todolistId1]: tasks_test1,
         [todolistId2]: tasks_test2
     })
 
+    //--------------------------------------------------------- Data -----------
     return (
         <div className="App_custome">
 
@@ -134,6 +142,7 @@ function App_test() {
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
+                        removeTodolist={removeTodolist}
 
                     />
                 })
