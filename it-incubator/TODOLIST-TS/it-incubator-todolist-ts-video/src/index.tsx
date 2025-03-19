@@ -8,16 +8,21 @@ import {Border} from "./Border";
 
 import {Counter} from "./Counter";
 
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
     // <React.StrictMode>
     <>
+
         <App/>
 
         <Border/>
+
         <App_test/>
+
+
         <Border/>
         <Counter/>
     </>

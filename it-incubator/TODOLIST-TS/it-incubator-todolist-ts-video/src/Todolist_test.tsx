@@ -15,14 +15,15 @@ export type TaskType = {
 }
 
 export type TodolistType = {
+    id: string,
     title: string
     tasks: Array<TaskType>
-    removeTasks: (id: string) => void
-    changeFilter: (value: FilterValuesType) => void
+    removeTasks: (id: string, todolistId: string) => void
+    changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
               newTaskSumm: number, quantity: number, prise: number,
-              unit: string) => void,
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+              unit: string,  todolistId: string) => void,
+    changeTaskStatus: (taskId: string, isDone: boolean,  todolistId: string) => void
     filter: FilterValuesType
 
 }
@@ -239,15 +240,15 @@ export function Todolist_test(props: TodolistType) {
     }
 
     const onAllClickHandler = () => {
-        props.changeFilter("all")
+        props.changeFilter("all", props.id)
     }
 
     const onActiveClickHandler = () => {
-        props.changeFilter("active")
+        props.changeFilter("active", props.id)
     }
 
     const onCompletedClickHandler = () => {
-        props.changeFilter("completed")
+        props.changeFilter("completed", props.id)
     }
 
     const onChangeIsHidentInputGroup = (isHidden: boolean) => {
@@ -414,12 +415,12 @@ export function Todolist_test(props: TodolistType) {
             <ul>
                 {
                     props.tasks.map((t) => {
-                        const onRemoveTaskHandler = (id: string) => {
-                            props.removeTasks(id)
+                        const onRemoveTaskHandler = (id: string, todolistId: string) => {
+                            props.removeTasks(id, todolistId)
                         }
                         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             // console.log(t.title + e.currentTarget.checked)
-                            props.changeTaskStatus(t.id, e.currentTarget.checked)
+                            props.changeTaskStatus(t.id, e.currentTarget.checked, t.id)
                         }
                         return <li
                             className={t.isDone === true
