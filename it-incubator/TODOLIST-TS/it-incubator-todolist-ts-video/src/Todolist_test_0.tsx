@@ -22,7 +22,7 @@ export type TodolistType = {
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
               newTaskSumm: number, quantity: number, prise: number,
-              unit: string, todolistId: string) => void,
+              unit: string,  todolistId: string) => void,
     changeTaskStatus: (taskId: string, isDone: boolean,
                        todolistId: string) => void,
     filter: FilterValuesType
@@ -32,124 +32,13 @@ export type TodolistType = {
 
 export function Todolist_test(props: TodolistType) {
 
-
-    const onChangeTask = (id: string) => {
-        alert(`Ви намагаєтесь редагувати завдання з id : ${id}`)
-    }
-
-    const onAllClickHandler = () => {
-        props.changeFilter("all", props.id)
-    }
-
-    const onActiveClickHandler = () => {
-        props.changeFilter("active", props.id)
-    }
-
-    const onCompletedClickHandler = () => {
-        props.changeFilter("completed", props.id)
-    }
-
-    const removeTodolist = () => {
-        props.removeTodolist(props.id)
-
-    }
-
-    return <div className={"container"}>
-
-        <h3>{props.title}
-            <button onClick={removeTodolist}>x</button>
-        </h3>
-
-        <AddItemForm id={props.id} addTask={props.addTask}/>
-
-        <div className="headerTable">
-            <span className="tableHeader-span-cheked">S</span>
-            <span className="tableHeader-span-title">Товар</span>
-            <span className="tableHeader-span-unit">Од. виміру</span>
-            <span className="tableHeader-span-period">Період</span>
-            <span className="tableHeader-span-quantity">Кількість</span>
-            <span className="tableHeader-span-prise">Ціна</span>
-            <span className="tableHeader-span-summ">Cума</span>
-            <span className="tableHeader-span-user">Покупець</span>
-            <span className="tableHeader-span-change">Дії</span>
-        </div>
-        <div className="table-body">
-            <ul>
-                {
-                    props.tasks.map((t) => {
-                        const onRemoveTaskHandler = (id: string) => {
-                            props.removeTasks(id, props.id)
-                        }
-                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            // console.log(t.title + e.currentTarget.checked)
-                            props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
-                        }
-                        return <li
-                            className={t.isDone === true
-                                ?
-                                "table-string" && "is-done"
-                                :
-                                "table-string"
-                            }
-                            key={t.id}>
-                            <input
-                                className="span-cheked"
-                                type="checkbox"
-                                checked={t.isDone}
-                                onChange={onChangeHandler}
-                            />
-                            <span className="span-title">{t.title}</span>
-                            <span className="span-unit">{t.unit}</span>
-                            <span className="span-period">{t.period}</span>
-                            <span className="span-quantity">{t.quantity}</span>
-                            <span className="span-prise">{t.prise}</span>
-                            <span className="span-summ">{t.summ}</span>
-                            <span className="span-user">{t.user}</span>
-                            <div className="span-change">
-                                <button onClick={() => onChangeTask(t.id)}>...</button>
-                                <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
-                            </div>
-
-                        </li>
-                    })
-                }
-            </ul>
-        </div>
-
-
-        <button
-            className={props.filter === "all" ? "active-filter" : ""}
-            onClick={onAllClickHandler}
-        >All
-        </button>
-        <button
-            className={props.filter === "active" ? "active-filter" : ""}
-            onClick={onActiveClickHandler}
-        >Active
-        </button>
-        <button
-            className={props.filter === "completed" ? "active-filter" : ""}
-            onClick={onCompletedClickHandler}
-        >Completed
-        </button>
-    </div>
-}
-
-type AddItemFormPropsType = {
-    id: string,
-    addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
-              newTaskSumm: number, newTaskQuantity: number, newTaskPrise: number, newTaskUnit: string, todolistId: string) => void
-}
-
-function AddItemForm(props: AddItemFormPropsType) {
-
     const getTodayDate = () => {
         return new Date().toISOString().split("T")[0];
     };
 
     let [isHidden, setIsHidden] = useState(true)
 
-    let [title, setTitle] = useState("")
+    let [title, settitle] = useState("")
     let [newTaskPeriod, setNewTaskPeriod] = useState(getTodayDate)
     let [newTaskUser, setNewTaskUser] = useState("")
     let [newTaskUnit, setNewTaskUnit] = useState("шт.")
@@ -170,56 +59,33 @@ function AddItemForm(props: AddItemFormPropsType) {
         setNewTaskSumm(parseFloat((newTaskPrise * newTaskQuantity).toFixed(2)))
     }, [newTaskPrise, newTaskQuantity])
 
+
+    const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        settitle(e.currentTarget.value)
+    }
+
     const onNewPeriodChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskPeriod(e.currentTarget.value)
     }
-
-    const onKeyDownPeriodHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskPeriod.trim() !== "") {
-            setErrorPeriod(null)
-        } else {
-            setErrorPeriod("!!!")
-        }
-
-    };
 
     const onNewUserChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskUser(e.currentTarget.value)
     }
 
-    const onKeyDownUserHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskUser.trim() !== "") {
-            setErrorUser(null)
-        } else {
-            setErrorUser("!!!")
-        }
-
-    };
-
-    const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-
-    const onKeyDownTitleHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskUser.trim() !== "") {
-            setErrorTitle(null)
-        } else {
-            setErrorTitle("!!!")
-        }
-
-    };
-
     const onNewUnitChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskUnit(e.currentTarget.value)
     }
 
-    const onKeyDownUnitHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskUser.trim() !== "") {
-            setErrorUnit(null)
+    const onNewSummChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value.length !== 0) {
+            const summ = parseFloat(e.currentTarget.value);
+            setNewTaskQuantity(parseFloat(summ.toFixed(2)));
         } else {
-            setErrorUnit("!!!")
+            setNewTaskSumm(0); // У випадку, якщо введено 0, ми можемо встановити значення в 0
         }
-    };
+
+        setNewTaskSumm(parseFloat(parseFloat(e.currentTarget.value).toFixed(2)))
+    }
 
     const onNewQuantityChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -233,14 +99,6 @@ function AddItemForm(props: AddItemFormPropsType) {
         }
     }
 
-    const onKeyDownGuantityHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskQuantity < 0.01) {
-            setErrorQuantity(null)
-        } else {
-            setErrorQuantity("!!!")
-        }
-    };
-
     const onNewPriseChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.value.length !== 0) {
             const prise = parseFloat(e.currentTarget.value);
@@ -252,6 +110,62 @@ function AddItemForm(props: AddItemFormPropsType) {
         }
     }
 
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.ctrlKey && e.key === "Enter") {
+            if (title.trim() !== ""
+                && newTaskPeriod.trim() !== ""
+                && newTaskUser.trim() !== ""
+                && newTaskUnit.trim() !== ""
+                && newTaskQuantity !== 0
+                && newTaskPrise !== 0) {
+                onAddTaskHandler();
+            }
+        }
+    };
+
+    const onKeyDownPeriodHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskPeriod.trim() !== "") {
+            setErrorPeriod(null)
+        } else {
+            setErrorPeriod("!!!")
+        }
+
+    };
+
+    const onKeyDownUserHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorUser(null)
+        } else {
+            setErrorUser("!!!")
+        }
+
+    };
+    const onKeyDownTitleHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorTitle(null)
+        } else {
+            setErrorTitle("!!!")
+        }
+
+    };
+
+    const onKeyDownUnitHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskUser.trim() !== "") {
+            setErrorUnit(null)
+        } else {
+            setErrorUnit("!!!")
+        }
+    };
+    const onKeyDownGuantityHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (newTaskQuantity < 0.01) {
+            setErrorQuantity(null)
+        } else {
+            setErrorQuantity("!!!")
+        }
+    };
+
     const onKeyDownPriseHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (newTaskPrise < 0.01) {
             setErrorPrise(null)
@@ -259,17 +173,6 @@ function AddItemForm(props: AddItemFormPropsType) {
             setErrorPrise("!!!")
         }
     };
-
-    const onNewSummChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.length !== 0) {
-            const summ = parseFloat(e.currentTarget.value);
-            setNewTaskQuantity(parseFloat(summ.toFixed(2)));
-        } else {
-            setNewTaskSumm(0); // У випадку, якщо введено 0, ми можемо встановити значення в 0
-        }
-
-        setNewTaskSumm(parseFloat(parseFloat(e.currentTarget.value).toFixed(2)))
-    }
 
     const onKeyDownSummHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (newTaskSumm < 0.01) {
@@ -290,7 +193,7 @@ function AddItemForm(props: AddItemFormPropsType) {
             props.addTask(title.trim(), newTaskPeriod, newTaskUser,
                 newTaskSumm, newTaskQuantity, newTaskPrise, newTaskUnit, props.id);
 
-            setTitle("");
+            settitle("");
             setNewTaskPeriod("");
             setNewTaskUser("");
             setNewTaskUnit("")
@@ -334,12 +237,36 @@ function AddItemForm(props: AddItemFormPropsType) {
         }
     };
 
+    const onChangeTask = (id: string) => {
+        alert(`Ви намагаєтесь редагувати завдання з id : ${id}`)
+    }
+
+    const onAllClickHandler = () => {
+        props.changeFilter("all", props.id)
+    }
+
+    const onActiveClickHandler = () => {
+        props.changeFilter("active", props.id)
+    }
+
+    const onCompletedClickHandler = () => {
+        props.changeFilter("completed", props.id)
+    }
+
     const onChangeIsHidentInputGroup = (isHidden: boolean) => {
         setIsHidden(!isHidden);
-    };
+    }
 
-    return <div>
-        <div>
+    const removeTodolist = ()=>{
+        props.removeTodolist(props.id)
+
+    }
+
+    return <div className={"container"}>
+        <div className="title-group">
+            <h3>{props.title}
+                <button onClick={removeTodolist}>x</button>
+            </h3>
             {
                 isHidden ?
                     <button
@@ -352,7 +279,10 @@ function AddItemForm(props: AddItemFormPropsType) {
                         onClick={() => onChangeIsHidentInputGroup(false)}>Сховати...
                     </button>
             }
+
         </div>
+
+
         <div className={isHidden ? "data-group-hidden" : "data-group-view"}>
             <div className='input-Mit-Label-Right'>
                 <input
@@ -369,6 +299,7 @@ function AddItemForm(props: AddItemFormPropsType) {
                     htmlFor="taskPeriod">Період
                 </label>
             </div>
+
 
             <div className='input-Mit-Label-Right'>
                 <label
@@ -472,7 +403,82 @@ function AddItemForm(props: AddItemFormPropsType) {
                             Усі поля обов'язкові
                         </span>
                 </div>
+
             }
+
         </div>
+
+        <div className="headerTable">
+            <span className="tableHeader-span-cheked">S</span>
+            <span className="tableHeader-span-title">Товар</span>
+            <span className="tableHeader-span-unit">Од. виміру</span>
+            <span className="tableHeader-span-period">Період</span>
+            <span className="tableHeader-span-quantity">Кількість</span>
+            <span className="tableHeader-span-prise">Ціна</span>
+            <span className="tableHeader-span-summ">Cума</span>
+            <span className="tableHeader-span-user">Покупець</span>
+            <span className="tableHeader-span-change">Дії</span>
+        </div>
+        <div className="table-body">
+            <ul>
+                {
+                    props.tasks.map((t) => {
+                        const onRemoveTaskHandler = (id: string) => {
+                            props.removeTasks(id, props.id)
+                        }
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            // console.log(t.title + e.currentTarget.checked)
+                            props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
+                        }
+                        return <li
+                            className={t.isDone === true
+                                ?
+                                "table-string" && "is-done"
+                                :
+                                "table-string"
+                            }
+                            key={t.id}>
+                            <input
+                                className="span-cheked"
+                                type="checkbox"
+                                checked={t.isDone}
+                                onChange={onChangeHandler}
+                            />
+                            <span className="span-title">{t.title}</span>
+                            <span className="span-unit">{t.unit}</span>
+                            <span className="span-period">{t.period}</span>
+                            <span className="span-quantity">{t.quantity}</span>
+                            <span className="span-prise">{t.prise}</span>
+                            <span className="span-summ">{t.summ}</span>
+                            <span className="span-user">{t.user}</span>
+                            <div className="span-change">
+                                <button onClick={() => onChangeTask(t.id)}>...</button>
+                                <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
+                            </div>
+
+                        </li>
+                    })
+                }
+            </ul>
+        </div>
+
+
+        <button
+            className={props.filter === "all" ? "active-filter" : ""}
+            onClick={onAllClickHandler}
+        >All
+        </button>
+        <button
+            className={props.filter === "active" ? "active-filter" : ""}
+            onClick={onActiveClickHandler}
+        >Active
+        </button>
+        <button
+            className={props.filter === "completed" ? "active-filter" : ""}
+            onClick={onCompletedClickHandler}
+        >Completed
+        </button>
     </div>
+
+
 }

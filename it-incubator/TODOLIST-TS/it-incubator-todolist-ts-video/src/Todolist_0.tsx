@@ -24,6 +24,28 @@ export type TodolistType = {
 
 export function Todolist(props: TodolistType) {
 
+    let [title, settitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
+
+    const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        settitle(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null)
+        if (title.trim() !== "" && e.ctrlKey && e.key === "Enter") {
+            addTask();
+        }
+    }
+
+    const addTask = () => {
+        if (title.trim() !== "") {
+            props.addTask(title, props.id)
+            settitle("")
+        } else {
+            setError("!!!!!")
+        }
+    }
 
     const onAllClickHandler = () => {
         props.changeFilter("all", props.id)
@@ -45,7 +67,25 @@ export function Todolist(props: TodolistType) {
             <button onClick={removeTodolist}>x</button>
         </h3>
         <div>
+            <div>
+                <input
+                    className={error ? "error" : ""}
+                    value={title}
+                    onChange={onNewTitleChangeHandler}
+                    onKeyDown={onKeyPressHandler}
+                />
+                {
+                    error
+                        ?
+                        <div className={error ? "error-message" : ""}> Field is requared </div>
+                        :
+                        null
 
+                }
+
+
+                <button onClick={addTask}>+</button>
+            </div>
             <AddItemForm id={props.id} addTask={props.addTask}/>
             <ul>
                 {
@@ -96,8 +136,6 @@ export function Todolist(props: TodolistType) {
     </div>
 }
 
-
-
 type AddItemFormPropsType = {
     addTask: (title: string, todolistId: string) => void
     id: string
@@ -106,11 +144,11 @@ type AddItemFormPropsType = {
 }
 
 function AddItemForm(props: AddItemFormPropsType) {
-    let [title, setTitle] = useState("")
+    let [title, settitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        settitle(e.currentTarget.value)
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -123,7 +161,7 @@ function AddItemForm(props: AddItemFormPropsType) {
     const addTask = () => {
         if (title.trim() !== "") {
             props.addTask(title, props.id)
-            setTitle("")
+            settitle("")
         } else {
             setError("!!!!!")
         }
