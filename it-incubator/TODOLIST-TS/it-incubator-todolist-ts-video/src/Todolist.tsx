@@ -1,5 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App";
+import {AddItemForm} from "./AddItemForm";
 
 export type TaskType = {
     id: string,
@@ -40,13 +41,18 @@ export function Todolist(props: TodolistType) {
 
     }
 
+
+    const addTask = (title: string)=> {
+        props.addTask(title, props.id)
+    }
+
     return <div className="todolist-box">
         <h3>{props.title}
             <button onClick={removeTodolist}>x</button>
         </h3>
         <div>
 
-            <AddItemForm id={props.id} addTask={props.addTask}/>
+            <AddItemForm  addItem={addTask}/>
             <ul>
                 {
                     props.tasks.map((t) => {
@@ -98,53 +104,3 @@ export function Todolist(props: TodolistType) {
 
 
 
-type AddItemFormPropsType = {
-    addTask: (title: string, todolistId: string) => void
-    id: string
-
-
-}
-
-function AddItemForm(props: AddItemFormPropsType) {
-    let [title, setTitle] = useState("")
-    let [error, setError] = useState<string | null>(null)
-
-    const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        if (title.trim() !== "" && e.ctrlKey && e.key === "Enter") {
-            addTask();
-        }
-    }
-
-    const addTask = () => {
-        if (title.trim() !== "") {
-            props.addTask(title, props.id)
-            setTitle("")
-        } else {
-            setError("!!!!!")
-        }
-    }
-
-    return <div>
-        <input
-            className={error ? "error" : ""}
-            value={title}
-            onChange={onNewTitleChangeHandler}
-            onKeyDown={onKeyPressHandler}
-        />
-        {
-            error
-                ?
-                <div className={error ? "error-message" : ""}> Field is requared </div>
-                :
-                null
-
-        }
-
-        <button onClick={addTask}>+</button>
-    </div>
-}

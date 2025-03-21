@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {Todolist_test} from "./Todolist_test";
+import {AddItemForm} from "./AddItemForm";
 
 import {tasks_test1, tasks_test2} from "./tasks_test";
 import {v1} from "uuid";
@@ -115,12 +116,13 @@ function App_test() {
         <div className="App_custome">
 
             <div className="app-header">
-                <input
-                    type="text"
-                    className="input-add-tasks-custome"
-                    placeholder="Вкажіть назву "
-                />
-                <button>+</button>
+                <AddItemForm  id={"www"} addItem={()=>{}}/>
+                {/*<input*/}
+                {/*    type="text"*/}
+                {/*    className="input-add-tasks-custome"*/}
+                {/*    placeholder="Вкажіть назву "*/}
+                {/*/>*/}
+                {/*<button>+</button>*/}
             </div>
             {
                 todolists.map(tl => {

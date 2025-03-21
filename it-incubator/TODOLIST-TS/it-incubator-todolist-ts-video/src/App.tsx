@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
+import {AddItemForm} from "./AddItemForm";
 import {v1} from 'uuid'
 
 
@@ -87,8 +88,8 @@ function App() {
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>(
         [
-            {id: todolistId1, title: "What to learn", filter: "active"},
-            {id: todolistId2, title: "What to bay", filter: "completed"}
+            {id: todolistId1, title: "What to learn", filter: "all"},
+            {id: todolistId2, title: "What to bay", filter: "all"}
 
         ]
     )
@@ -115,17 +116,19 @@ function App() {
 
     return (
         <div className="App">
-            <div className="app-header">
-                <input type="text"
-                       className="input-add-tasks"
-                       placeholder="Вкажіть назву"
-                       onChange={onChangeValue}
 
-                />
-                <button
-                    onClick={() => console.log(value)}>
-                    +
-                </button>
+            <div className="app-header">
+                <AddItemForm id={"www"} addItem={()=>{}}/>
+                {/*<input type="text"*/}
+                {/*       className="input-add-tasks"*/}
+                {/*       placeholder="Вкажіть назву"*/}
+                {/*       onChange={onChangeValue}*/}
+
+                {/*/>*/}
+                {/*<button*/}
+                {/*    onClick={() => console.log(value)}>*/}
+                {/*    +*/}
+                {/*</button>*/}
             </div>
 
             <div className="App-box">
