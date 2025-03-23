@@ -1,9 +1,20 @@
 import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App_test";
 import './Todolist_test.css'
-import {AddItemForm} from "./AddItemForm_test";
+// import {AddItemForm} from "./AddItemForm_test";
+import {AddItemForm_test} from "./AddItemForm_test";
+import {
+    EditableSpan_test,
+    EditableSpanPeriod,
+    EditableSpanPrise,
+    EditableSpanQuantity,
+    EditableSpanSumm,
+    EditableSpanUnit,
+    EditableSpanUser
+} from "./EditableSpan_test";
 
-export type TaskType = {
+
+export type TaskTypeTest = {
     id: string,
     title: string,
     isDone: boolean,
@@ -18,12 +29,13 @@ export type TaskType = {
 export type TodolistType = {
     id: string,
     title: string
-    tasks: Array<TaskType>
+    tasks: Array<TaskTypeTest>
     removeTasks: (id: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string, newTaskPeriod: string, newTaskUser: string,
-              newTaskSumm: number, quantity: number, prise: number,
-              unit: string, todolistId: string) => void,
+    addTask: (title: string, todolistId: string) => void
+    addTaskItem: (title: string, newTaskPeriod: string, newTaskUser: string,
+                  newTaskSumm: number, quantity: number, prise: number,
+                  unit: string, todolistId: string) => void,
     changeTaskStatus: (taskId: string, isDone: boolean,
                        todolistId: string) => void,
     filter: FilterValuesType
@@ -55,9 +67,10 @@ export function Todolist_test(props: TodolistType) {
 
     }
 
-    const addTask = (title: string)=> {
-        props.addTask(title, props.id)
-    }
+    const addTask = (title: string, period: string, user: string, summ: number, quantity: number, price: number, unit: string) => {
+        props.addTaskItem(title, period, user, summ, quantity, price, unit, props.id);
+    };
+
 
     return <div className={"container"}>
 
@@ -66,7 +79,7 @@ export function Todolist_test(props: TodolistType) {
 
         </h3>
 
-        <AddItemForm id={props.id} addItem={props.addTask}/>
+        <AddItemForm_test addItem={addTask} id={props.id}/>
 
         <div className="headerTable">
             <span className="tableHeader-span-cheked">S</span>
@@ -104,13 +117,14 @@ export function Todolist_test(props: TodolistType) {
                                 checked={t.isDone}
                                 onChange={onChangeHandler}
                             />
-                            <span className="span-title">{t.title}</span>
-                            <span className="span-unit">{t.unit}</span>
-                            <span className="span-period">{t.period}</span>
-                            <span className="span-quantity">{t.quantity}</span>
-                            <span className="span-prise">{t.prise}</span>
-                            <span className="span-summ">{t.summ}</span>
-                            <span className="span-user">{t.user}</span>
+
+                            <EditableSpan_test title={t.title} editMode={false}/>
+                            <EditableSpanUnit unit={t.unit} editMode={false}/>
+                            <EditableSpanPeriod period={t.period} editMode={false}/>
+                            <EditableSpanQuantity quantity={t.quantity} editMode={false}/>
+                            <EditableSpanPrise prise={t.prise} editMode={false}/>
+                            <EditableSpanSumm summ={t.summ} editMode={false}/>
+                            <EditableSpanUser user={t.user} editMode={false}/>
                             <div className="span-change">
                                 <button onClick={() => onChangeTask(t.id)}>...</button>
                                 <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>

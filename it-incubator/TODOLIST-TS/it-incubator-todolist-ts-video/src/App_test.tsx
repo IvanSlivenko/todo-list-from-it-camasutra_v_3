@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
-import {Todolist_test} from "./Todolist_test";
+import {TaskType, Todolist} from "./Todolist";
+import {Todolist_test, TaskTypeTest } from "./Todolist_test";
 import {AddItemForm} from "./AddItemForm";
+import {AddItemForm_test} from "./AddItemForm_test";
 
 import {tasks_test1, tasks_test2} from "./tasks_test";
 import {v1} from "uuid";
@@ -13,6 +14,10 @@ export type TodolistType = {
     id: string,
     title: string,
     filter: FilterValuesType
+}
+
+type TasksStateType = {
+    [key: string] : Array<TaskTypeTest>
 }
 
 function App_test() {
@@ -40,9 +45,9 @@ function App_test() {
         setTasks({...tasksObj});
     }
 
-    function addTask(title: string, newTaskPeriod: string,
-                     newTaskUser: string, summ: number,
-                     quantity: number, prise: number, unit: string, todolistId: string) {
+    function addTaskItem(title: string, newTaskPeriod: string,
+                         newTaskUser: string, summ: number,
+                         quantity: number, prise: number, unit: string, todolistId: string) {
         let task = {
             id: v1(),
             title: title,
@@ -63,6 +68,7 @@ function App_test() {
         setTasks({...tasksObj})
 
     }
+
 
     function changeStatus(taskId: string, isDone: boolean, todolistId: string) {
         let tasks = tasksObj[todolistId];
@@ -99,24 +105,40 @@ function App_test() {
         ]
     )
 
-    let removeTodolist=(todolistId: string)=>{
-        let filteredTodolist = todolists.filter(t=>t.id !== todolistId )
+    let removeTodolist = (todolistId: string) => {
+        let filteredTodolist = todolists.filter(t => t.id !== todolistId)
         setTodolists(filteredTodolist)
         delete tasksObj[todolistId]
         setTasks({...tasksObj});
     }
 
-    let [tasksObj, setTasks] = useState({
+    let [tasksObj, setTasks] = useState<TasksStateType>({
         [todolistId1]: tasks_test1,
         [todolistId2]: tasks_test2
     })
 
     //--------------------------------------------------------- Data -----------
+
+    function addTodolist(title: string) {
+        let todolist: TodolistType = {
+            id: v1(),
+            filter: 'all',
+            title: title
+        }
+        setTodolists([todolist, ...todolists])
+        setTasks({
+            ...tasksObj,
+            [todolist.id]: []
+        })
+    }
+
+
+
     return (
         <div className="App_custome">
 
             <div className="app-header">
-                <AddItemForm  id={"www"} addItem={()=>{}}/>
+                <AddItemForm addItem={addTodolist}/>
                 {/*<input*/}
                 {/*    type="text"*/}
                 {/*    className="input-add-tasks-custome"*/}
@@ -141,7 +163,9 @@ function App_test() {
                         tasks={taskForTodolist}
                         removeTasks={removeTasks}
                         changeFilter={changeFilter}
-                        addTask={addTask}
+                        addTask={() => {
+                        }}
+                        addTaskItem={addTaskItem}
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}

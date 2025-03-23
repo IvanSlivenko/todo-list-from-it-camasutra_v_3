@@ -13,6 +13,10 @@ export type TodolistType = {
     filter: FilterValuesType
 }
 
+type TasksStateType = {
+    [key: string] : Array<TaskType>
+}
+
 function App() {
 
     const initTasks: Array<TaskType> = [
@@ -49,7 +53,7 @@ function App() {
         let tasks = tasksObj[todolistId]
 
         let newTasks = [task, ...tasks];
-        tasksObj[todolistId]=newTasks;
+        tasksObj[todolistId] = newTasks;
         setTasks({...tasksObj});
     }
 
@@ -94,14 +98,14 @@ function App() {
         ]
     )
 
-    let removeTodolist=(todolistId: string)=>{
-        let filteredTodolist = todolists.filter(t=>t.id !== todolistId )
+    let removeTodolist = (todolistId: string) => {
+        let filteredTodolist = todolists.filter(t => t.id !== todolistId)
         setTodolists(filteredTodolist)
         delete tasksObj[todolistId]
         setTasks({...tasksObj});
     }
 
-    let [tasksObj, setTasks] = useState({
+    let [tasksObj, setTasks] = useState<TasksStateType>({
         [todolistId1]: [
             {id: v1(), title: "CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -114,11 +118,26 @@ function App() {
         ]
     })
 
+    function addTodolist(title: string) {
+        let todolist: TodolistType = {
+            id: v1(),
+            filter: 'all',
+            title: title
+        }
+        setTodolists([todolist, ...todolists])
+        setTasks({
+            ...tasksObj,
+            [todolist.id]: []
+        })
+    }
+
+
+
     return (
         <div className="App">
 
             <div className="app-header">
-                <AddItemForm id={"www"} addItem={()=>{}}/>
+                <AddItemForm addItem={addTodolist}/>
                 {/*<input type="text"*/}
                 {/*       className="input-add-tasks"*/}
                 {/*       placeholder="Вкажіть назву"*/}

@@ -3,10 +3,11 @@ import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
 type AddItemFormPropsType = {
     id: string,
     addItem: (title: string, newTaskPeriod: string, newTaskUser: string,
-              newTaskSumm: number, newTaskQuantity: number, newTaskPrise: number, newTaskUnit: string, todolistId: string) => void
+              newTaskSumm: number, newTaskQuantity: number,
+              newTaskPrise: number, newTaskUnit: string, todolistId: string) => void
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
+export function AddItemForm_test(props: AddItemFormPropsType) {
 
     const getTodayDate = () => {
         return new Date().toISOString().split("T")[0];

@@ -1,11 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddItemFormPropsType = {
-    // addItem: (title: string, todolistId: string) => void
     addItem: (title: string) => void
-    // id: string
-
-
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
