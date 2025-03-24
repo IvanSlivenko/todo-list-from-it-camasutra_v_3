@@ -1,92 +1,154 @@
-import React from "react";
+import React, {KeyboardEvent, useState} from "react";
 
 type EditableSpanPropsType = {
     title: string
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpan_test(props: EditableSpanPropsType) {
-    return props.editMode ?
-        <input type="text" value={props.title}/>
-        :
-        <span className="span-title">{props.title}</span>
+    let [editMode, setEditMode] = useState(false)
+    const activateEditMode = () => {
+        setEditMode(true)
+    }
 
+    const activateVievMode = () => {
+        setEditMode(false)
+    }
+
+    return editMode ?
+        <span>
+            <input value={props.title} onBlur={activateVievMode}/>
+            <button onClick={activateVievMode}>=</button>
+        </span>
+
+        :
+        <span className="span-title">{props.title}
+            <button onClick={activateEditMode}>...</button></span>
 }
 
 type EditableSpanUnitPropsType = {
     unit: string
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanUnit(props: EditableSpanUnitPropsType) {
-    return props.editMode ?
-        <input type="text" value={props.unit}/>
+    let [editModeUnit, setEditModeUnit] = useState(false)
+    const activateEditModeUnit = () => {
+        setEditModeUnit(true)
+    }
+    const activateVievModeUnit = () => {
+        setEditModeUnit(false)
+    }
+    return editModeUnit ?
+        <span>
+            <input type="text" value={props.unit}/>
+            <button onClick={activateVievModeUnit}>=</button>
+        </span>
+
         :
-        <span className="span-unit">{props.unit}</span>
-
-
+        <span className="span-unit">{props.unit}
+            <button onClick={activateEditModeUnit}>...</button></span>
 }
 
 type EditableSpanPeriodPropsType = {
     period: string
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanPeriod(props: EditableSpanPeriodPropsType) {
-    return props.editMode ?
-        <input type="text" value={props.period}/>
-        :
-        <span className="span-unit">{props.period}</span>
+    let [editModePeriod, setEditModePeriod] = useState(false)
+    const activateEditModePeriod = () => {
+        setEditModePeriod(true)
+    }
+    const activateVievModePeriod = () => {
+        setEditModePeriod(false)
+    }
+    return editModePeriod ?
+        <span>
+            <input type="text" value={props.period}/>
+            <button onClick={activateVievModePeriod}>=</button>
+        </span>
 
+        :
+        <span
+            onDoubleClick={activateEditModePeriod}
+            className="span-unit"
+        >
+            {props.period}
+        </span>
 }
 
 type EditableSpanQuantityPropsType = {
     quantity: number
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanQuantity(props: EditableSpanQuantityPropsType) {
-    return props.editMode ?
+    let [editModeQuantity, setEditModeQuantity] = useState(false)
+    const activateEditModeQuantity = () => {
+        setEditModeQuantity(true)
+    }
+    return editModeQuantity ?
         <input type="text" value={props.quantity}/>
         :
-        <span className="span-unit">{props.quantity}</span>
+        <span
+            onDoubleClick={activateEditModeQuantity}
+            className="span-unit">{props.quantity}</span>
 
 }
 
 type EditableSpanPrisePropsType = {
     prise: number
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanPrise(props: EditableSpanPrisePropsType) {
-    return props.editMode ?
+    let [editModePrise, setEditModePrise] = useState(false)
+    const activateEditModePrise = () => {
+        setEditModePrise(true)
+    }
+    return editModePrise ?
         <input type="text" value={props.prise}/>
         :
-        <span className="span-unit">{props.prise}</span>
+        <span
+            onDoubleClick={activateEditModePrise}
+            className="span-unit">{props.prise}</span>
 
 }
 
 type EditableSpanSummPropsType = {
     summ: number
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanSumm(props: EditableSpanSummPropsType) {
-    return props.editMode ?
+    let [editModeSumm, setEditModeSumm] = useState(false)
+    const activateEditModeSumm = () => {
+        setEditModeSumm(true)
+    }
+    return editModeSumm ?
         <input type="text" value={props.summ}/>
         :
-        <span className="span-unit">{props.summ}</span>
+        <span
+            onDoubleClick={activateEditModeSumm}
+            className="span-unit">{props.summ}</span>
 }
 
 type EditableSpanUserPropsType = {
     user: string
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpanUser(props: EditableSpanUserPropsType) {
-    return props.editMode ?
+    let [editModeUser, setEditModeUser] = useState(false)
+    const activateEditModeUser = () => {
+        setEditModeUser(true)
+    }
+    return editModeUser ?
         <input type="text" value={props.user}/>
         :
-        <span className="span-unit">{props.user}</span>
+        <span
+            onDoubleClick={activateEditModeUser}
+            className="span-unit">{props.user}</span>
 
 }

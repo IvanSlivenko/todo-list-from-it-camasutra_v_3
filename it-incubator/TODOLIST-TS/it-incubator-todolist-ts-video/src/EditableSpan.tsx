@@ -2,16 +2,28 @@ import React, {useState} from "react";
 
 type EditableSpanPropsType = {
     title: string
-    editMode: boolean
+    // editMode: boolean
 }
 
 export function EditableSpan(props: EditableSpanPropsType) {
+    let [editMode, setEditMode] = useState(false)
+    const activateEditMode = ()=>{
+        setEditMode(true)
+    }
 
+    const activateVievMode = ()=>{
+        setEditMode(false)
+    }
 
-    return props.editMode ?
-        <input type="text" value={props.title}/>
+    return editMode ?
+        <input value={props.title} onBlur={activateVievMode}/>
         :
-        <span className="span-title">{props.title}</span>
+        <span
+
+            className="span-title"
+            onDoubleClick={activateEditMode}
+
+        >{props.title}</span>
 
 
 }

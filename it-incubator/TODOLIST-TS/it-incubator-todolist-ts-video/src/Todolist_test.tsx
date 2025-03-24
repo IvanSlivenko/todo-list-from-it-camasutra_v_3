@@ -118,15 +118,15 @@ export function Todolist_test(props: TodolistType) {
                                 onChange={onChangeHandler}
                             />
 
-                            <EditableSpan_test title={t.title} editMode={false}/>
-                            <EditableSpanUnit unit={t.unit} editMode={false}/>
-                            <EditableSpanPeriod period={t.period} editMode={false}/>
-                            <EditableSpanQuantity quantity={t.quantity} editMode={false}/>
-                            <EditableSpanPrise prise={t.prise} editMode={false}/>
-                            <EditableSpanSumm summ={t.summ} editMode={false}/>
-                            <EditableSpanUser user={t.user} editMode={false}/>
+                            <EditableSpan_test title={t.title}/>
+                            <EditableSpanUnit unit={t.unit}/>
+                            <EditableSpanPeriod period={t.period}/>
+                            <EditableSpanQuantity quantity={t.quantity}/>
+                            <EditableSpanPrise prise={t.prise}/>
+                            <EditableSpanSumm summ={t.summ}/>
+                            <EditableSpanUser user={t.user}/>
                             <div className="span-change">
-                                <button onClick={() => onChangeTask(t.id)}>...</button>
+                                {/*<button onClick={() => onChangeTask(t.id)}>...</button>*/}
                                 <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
                             </div>
 

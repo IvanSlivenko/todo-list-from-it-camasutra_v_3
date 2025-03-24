@@ -75,7 +75,7 @@ export function Todolist(props: TodolistType) {
                                 checked={t.isDone}
                                 onChange={onChangeHandler}
                             />
-                            <EditableSpan title={t.title} editMode={false}/>
+                            <EditableSpan title={t.title} />
                             <button onClick={onRemoveHandler}>x</button>
 
                         </li>
