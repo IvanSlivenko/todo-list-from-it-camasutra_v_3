@@ -75,7 +75,7 @@ export function Todolist(props: TodolistType) {
                                 checked={t.isDone}
                                 onChange={onChangeHandler}
                             />
-                            <EditableSpan title={t.title} />
+                            <EditableSpan title={t.title} onChange={(value)=>{alert(value)}} />
                             <button onClick={onRemoveHandler}>x</button>
 
                         </li>

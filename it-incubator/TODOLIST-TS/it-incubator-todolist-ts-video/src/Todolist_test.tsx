@@ -10,7 +10,8 @@ import {
     EditableSpanQuantity,
     EditableSpanSumm,
     EditableSpanUnit,
-    EditableSpanUser
+    EditableSpanUser,
+    EditableSpanCounter
 } from "./EditableSpan_test";
 
 
@@ -118,13 +119,19 @@ export function Todolist_test(props: TodolistType) {
                                 onChange={onChangeHandler}
                             />
 
-                            <EditableSpan_test title={t.title}/>
-                            <EditableSpanUnit unit={t.unit}/>
-                            <EditableSpanPeriod period={t.period}/>
-                            <EditableSpanQuantity quantity={t.quantity}/>
-                            <EditableSpanPrise prise={t.prise}/>
-                            <EditableSpanSumm summ={t.summ}/>
-                            <EditableSpanUser user={t.user}/>
+                            <EditableSpan_test title={t.title} onChange={(value)=> alert(value)}/>
+                            <EditableSpanUnit unit={t.unit} onChange={(value)=> alert(value)}/>
+                            <EditableSpanPeriod period={t.period} onChange={(value)=> alert(value)}/>
+                            <EditableSpanCounter
+                                quantity={t.quantity}
+                                prise={t.prise}
+                                summ={t.summ}
+                                onChangeQuantity={(value)=> alert(value)}
+                                onChangePrise={(value)=> alert(value)}
+                                onChangeSumm={(value)=> alert(value)}
+
+                            />
+                            <EditableSpanUser user={t.user} onChange={(value)=> alert(value)}/>
                             <div className="span-change">
                                 {/*<button onClick={() => onChangeTask(t.id)}>...</button>*/}
                                 <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>
