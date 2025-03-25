@@ -39,6 +39,14 @@ export type TodolistType = {
                   unit: string, todolistId: string) => void,
     changeTaskStatus: (taskId: string, isDone: boolean,
                        todolistId: string) => void,
+    changeTaskTitle: (id: string, newTitle: string,
+                       todolistId: string) => void,
+    changeTaskUnit: (id: string, newUnit: string,
+                       todolistId: string) => void,
+
+    changeTaskPeriod: (id: string, newPeriod: string,
+                     todolistId: string) => void,
+
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
 
@@ -104,6 +112,21 @@ export function Todolist_test(props: TodolistType) {
                             // console.log(t.title + e.currentTarget.checked)
                             props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
                         }
+
+                        const onChangeTitleHandler = (newValue: string) => {
+                            props.changeTaskTitle(t.id, newValue, props.id)
+                        }
+
+                        const onChangeUnitHandler = (newUnit: string) => {
+                            props.changeTaskUnit(t.id, newUnit, props.id)
+                        }
+                        const onChangePeriodHandler = (newPeriod: string) => {
+                            props.changeTaskPeriod(t.id, newPeriod, props.id)
+                        }
+
+
+
+
                         return <li
                             className={t.isDone === true
                                 ?
@@ -119,9 +142,9 @@ export function Todolist_test(props: TodolistType) {
                                 onChange={onChangeHandler}
                             />
 
-                            <EditableSpan_test title={t.title} onChange={(value)=> alert(value)}/>
-                            <EditableSpanUnit unit={t.unit} onChange={(value)=> alert(value)}/>
-                            <EditableSpanPeriod period={t.period} onChange={(value)=> alert(value)}/>
+                            <EditableSpan_test title={t.title} onChange={onChangeTitleHandler}/>
+                            <EditableSpanUnit unit={t.unit} onChange={onChangeUnitHandler}/>
+                            <EditableSpanPeriod period={t.period} onChange={onChangePeriodHandler}/>
                             <EditableSpanCounter
                                 quantity={t.quantity}
                                 prise={t.prise}
@@ -129,7 +152,6 @@ export function Todolist_test(props: TodolistType) {
                                 onChangeQuantity={(value)=> alert(value)}
                                 onChangePrise={(value)=> alert(value)}
                                 onChangeSumm={(value)=> alert(value)}
-
                             />
                             <EditableSpanUser user={t.user} onChange={(value)=> alert(value)}/>
                             <div className="span-change">

@@ -18,6 +18,8 @@ export type TodolistType = {
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+    changeTaskTitle: (id: string, newTitle: string, todolistId: string) => void
+
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
 
@@ -62,9 +64,12 @@ export function Todolist(props: TodolistType) {
                             props.removeTask(t.id, props.id)
                         }
 
-                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            // console.log(t.title + e.currentTarget.checked)
+                        const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeTaskStatus(t.id, e.currentTarget.checked, props.id)
+                        }
+
+                        const onChangeTitleHandler = (newValue:  string) => {
+                            props.changeTaskTitle(t.id, newValue, props.id)
                         }
                         return <li
                             key={t.id}
@@ -73,9 +78,9 @@ export function Todolist(props: TodolistType) {
                             <input
                                 type="checkbox"
                                 checked={t.isDone}
-                                onChange={onChangeHandler}
+                                onChange={onChangeStatusHandler}
                             />
-                            <EditableSpan title={t.title} onChange={(value)=>{alert(value)}} />
+                            <EditableSpan title={t.title} onChange={onChangeTitleHandler} />
                             <button onClick={onRemoveHandler}>x</button>
 
                         </li>

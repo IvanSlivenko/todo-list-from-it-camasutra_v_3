@@ -98,7 +98,7 @@ export function EditableSpanPeriod(props: EditableSpanPeriodPropsType) {
     return editModePeriod ?
         <span>
             <input
-                type="text"
+                type="date"
                 value={period}
                 autoFocus={true}
                 onChange={onChangePeriodHandler}
