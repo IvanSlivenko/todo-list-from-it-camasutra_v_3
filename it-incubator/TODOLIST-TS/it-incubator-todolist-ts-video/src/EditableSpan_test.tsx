@@ -368,7 +368,7 @@ export function EditableSpanCounter(props: EditableSpanCounterPropsType) {
             ) : (
                 <span className="span-unit">
                     {props.summ}
-                    <button onClick={activateEditModeSumm}>=</button>
+                    {/*<button onClick={activateEditModeSumm}>=</button>*/}
                 </span>
             )}
         </>

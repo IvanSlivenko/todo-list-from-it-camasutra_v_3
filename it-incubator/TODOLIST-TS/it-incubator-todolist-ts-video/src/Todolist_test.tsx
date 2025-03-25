@@ -47,8 +47,21 @@ export type TodolistType = {
     changeTaskPeriod: (id: string, newPeriod: string,
                      todolistId: string) => void,
 
+    changeTaskQuantity: (id: string, newQuantity: number,
+                       todolistId: string) => void,
+
+    changeTaskPrise: (id: string, newPrise: number,
+                       todolistId: string) => void,
+
+    changeTaskSumm: (id: string, newSumm: number,
+                       todolistId: string) => void,
+
+    changeTaskUser: (id: string, newUser: string,
+                       todolistId: string) => void,
+
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
+    changeTodolistTitle: (todolistId: string, newTitle: string) => void
 
 }
 
@@ -75,6 +88,10 @@ export function Todolist_test(props: TodolistType) {
         props.removeTodolist(props.id)
 
     }
+    const changeTodolistTitle = (newTitle: string) => {
+        props.changeTodolistTitle(props.id, newTitle)
+
+    }
 
     const addTask = (title: string, period: string, user: string, summ: number, quantity: number, price: number, unit: string) => {
         props.addTaskItem(title, period, user, summ, quantity, price, unit, props.id);
@@ -83,7 +100,9 @@ export function Todolist_test(props: TodolistType) {
 
     return <div className={"container"}>
 
-        <h3>{props.title}
+        <h3>
+            {/*{props.title}*/}
+            <EditableSpan_test title={props.title} onChange={changeTodolistTitle}/>
             <button onClick={removeTodolist}>x</button>
 
         </h3>
@@ -123,9 +142,20 @@ export function Todolist_test(props: TodolistType) {
                         const onChangePeriodHandler = (newPeriod: string) => {
                             props.changeTaskPeriod(t.id, newPeriod, props.id)
                         }
+                        const onChangeQuantityHandler = (newQuantity: number) => {
+                            props.changeTaskQuantity(t.id, newQuantity, props.id)
+                        }
+                        const onChangePriseHandler = (newPrise: number) => {
+                            props.changeTaskPrise(t.id, newPrise, props.id)
+                        }
 
+                        const onChangeSummHandler = (newSumm: number) => {
+                            props.changeTaskSumm(t.id, newSumm, props.id)
+                        }
 
-
+                        const onChangeUserHandler = (newUser: string) => {
+                            props.changeTaskUser(t.id, newUser, props.id)
+                        }
 
                         return <li
                             className={t.isDone === true
@@ -149,11 +179,11 @@ export function Todolist_test(props: TodolistType) {
                                 quantity={t.quantity}
                                 prise={t.prise}
                                 summ={t.summ}
-                                onChangeQuantity={(value)=> alert(value)}
-                                onChangePrise={(value)=> alert(value)}
-                                onChangeSumm={(value)=> alert(value)}
+                                onChangeQuantity={onChangeQuantityHandler}
+                                onChangePrise={onChangePriseHandler}
+                                onChangeSumm={onChangeSummHandler}
                             />
-                            <EditableSpanUser user={t.user} onChange={(value)=> alert(value)}/>
+                            <EditableSpanUser user={t.user} onChange={onChangeUserHandler}/>
                             <div className="span-change">
                                 {/*<button onClick={() => onChangeTask(t.id)}>...</button>*/}
                                 <button onClick={() => onRemoveTaskHandler(t.id)}>x</button>

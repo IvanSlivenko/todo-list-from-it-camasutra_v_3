@@ -105,6 +105,40 @@ function App_test() {
             setTasks({...tasksObj})
         }
     }
+    function changeTaskQuantity(id: string, newQuantity: number, todolistId: string) {
+        let tasks = tasksObj[todolistId];
+        let task = tasks.find(t => t.id === id)
+        if (task) {
+            task.quantity = newQuantity;
+            task.summ=task.quantity*task.prise
+            setTasks({...tasksObj})
+        }
+    }
+    function changeTaskPrise(id: string, newPrise: number, todolistId: string) {
+        let tasks = tasksObj[todolistId];
+        let task = tasks.find(t => t.id === id)
+        if (task) {
+            task.prise = newPrise;
+            task.summ=task.quantity*task.prise
+            setTasks({...tasksObj})
+        }
+    }
+    function changeTaskSumm(id: string, newSumm: number, todolistId: string) {
+        let tasks = tasksObj[todolistId];
+        let task = tasks.find(t => t.id === id)
+        if (task) {
+            task.summ = newSumm;
+            setTasks({...tasksObj})
+        }
+    }
+    function changeTaskUser(id: string, newUser: string, todolistId: string) {
+        let tasks = tasksObj[todolistId];
+        let task = tasks.find(t => t.id === id)
+        if (task) {
+            task.user = newUser;
+            setTasks({...tasksObj})
+        }
+    }
 
 
 
@@ -137,6 +171,13 @@ function App_test() {
         delete tasksObj[todolistId]
         setTasks({...tasksObj});
     }
+    let changeTodolistTitle = (id: string, newTitle: string) => {
+        const todolist = todolists.find(tl=>tl.id === id)
+        if(todolist){
+            todolist.title = newTitle
+            setTodolists([...todolists]);
+        }
+    }
 
     let [tasksObj, setTasks] = useState<TasksStateType>({
         [todolistId1]: tasks_test1,
@@ -165,12 +206,6 @@ function App_test() {
 
             <div className="app-header">
                 <AddItemForm addItem={addTodolist}/>
-                {/*<input*/}
-                {/*    type="text"*/}
-                {/*    className="input-add-tasks-custome"*/}
-                {/*    placeholder="Вкажіть назву "*/}
-                {/*/>*/}
-                {/*<button>+</button>*/}
             </div>
             {
                 todolists.map(tl => {
@@ -196,9 +231,14 @@ function App_test() {
                         changeTaskTitle={changeTaskTitle}
                         changeTaskUnit={changeTaskUnit}
                         changeTaskPeriod={changeTaskPeriod}
+                        changeTaskQuantity={changeTaskQuantity}
+                        changeTaskPrise={changeTaskPrise}
+                        changeTaskSumm={changeTaskSumm}
+                        changeTaskUser={changeTaskUser}
 
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        changeTodolistTitle={changeTodolistTitle}
 
                     />
                 })
